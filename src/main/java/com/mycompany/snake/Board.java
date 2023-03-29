@@ -7,8 +7,11 @@ package com.mycompany.snake;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import static java.lang.Math.random;
 import static java.lang.StrictMath.random;
+import java.util.*;
 
 /**
  *
@@ -17,8 +20,9 @@ import static java.lang.StrictMath.random;
 public class Board extends javax.swing.JPanel {
 
     private Snake snake;
-    private Food food;
-    private SpecialFood sFood;
+    private Timer timer;
+    private int deltaTime;
+    
     
     
     
@@ -37,15 +41,21 @@ public class Board extends javax.swing.JPanel {
     
     private void myInit() {
         snake = new Snake();
-        setBackground(Color.LIGHT_GRAY);
         
+       /*timer = new Timer(100, new ActionListener() {
+       @Override
+            public void actionPerformed(ActionEvent e) {
+        
+            }
+        });*/
+    
+    }
             
         
-    } 
+     
     
     public boolean canMove(int row, int col) {
-        
-        
+            
         if (row > Config.instance.numRow || row < 0 ||
                 col > Config.instance.numCol || col < 0 || snake.containsNode(row, col)) {
             return false;
@@ -62,40 +72,37 @@ public class Board extends javax.swing.JPanel {
     }
     
     public void drawSquare(Graphics g, Node node, Type type) {
+        
         Color colors[] = {new Color(204, 102, 102),new Color(204, 102, 204), new Color(218, 170, 0),new Color(218, 170, 204)};
-        Color color;
+        
         int x = node.getCol() * squareWidth();
         int y = node.getRow() * squareHeight();
         
         switch (type) {
             case HEAD:
-                color = colors[0];
-                g.setColor(color);
+                g.setColor(colors[0]);
                 break;
             case BODY:
-                color = colors[1];
-                g.setColor(color);
+                g.setColor(colors[1]);
                 break;
             case FOOD:
-                color = colors[2];
-                g.setColor(color);
+                g.setColor(colors[2]);
                 break;
             case SPECIAL_FOOD:
-                color = colors[3];
-                g.setColor(color);
+                g.setColor(colors[3]);
                 break;
             default:
-                color = colors[1];
+                g.setColor(colors[1]);
                 break;
         }
         
         
         g.fillRect(x + 1, y + 1, squareWidth() - 2,
                 squareHeight() - 2);
-        //g.setColor(color.brighter());
+        g.setColor(g.getColor().brighter());
         g.drawLine(x, y + squareHeight() - 1, x, y);
         g.drawLine(x, y, x + squareWidth() - 1, y);
-        g.setColor(color.darker());
+        g.setColor(g.getColor().darker());
         g.drawLine(x + 1, y + squareHeight() - 1,
                 x + squareWidth() - 1, y + squareHeight() - 1);
         g.drawLine(x + squareWidth() - 1,
@@ -110,7 +117,24 @@ public class Board extends javax.swing.JPanel {
     public void paintSpecialFood(Board b, Graphics g, Node node) {
         b.drawSquare(g, node, Type.SPECIAL_FOOD);
     }
+    
+    private void tick() {
         
+        repaint();
+    }
+    
+    public void setDeltaTime() {
+        switch (Config.instance.getLevel()) {
+            case 0: deltaTime = 500;
+                break;
+            case 1: deltaTime = 300;
+                break;
+            case 2: deltaTime = 150;
+                break;
+            default:
+                throw new AssertionError();
+        }
+    }    
         
     
     @SuppressWarnings("unchecked")
@@ -121,6 +145,8 @@ public class Board extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(500, 500));
         setLayout(new java.awt.GridLayout());
     }// </editor-fold>//GEN-END:initComponents
+
+    
 
     
 
