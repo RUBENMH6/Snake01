@@ -22,6 +22,8 @@ public class Snake {
     private Direction direction;
     private Board board;
     private Util util;
+    private Food food;
+    private SpecialFood sFood;
     
     public Snake() {
         direction = Direction.RIGHT;
@@ -30,6 +32,8 @@ public class Snake {
         for (int i = 0; i < 4; i++) {
             snake.add(new Node(Config.instance.numRow/2, Config.instance.numCol/2 - i));
         }
+        
+        
     }
 
     public void setDirection(Direction direction) {
@@ -68,29 +72,38 @@ public class Snake {
         int col = snake.get(0).getCol();
         
         
+        
         switch(direction) {
             case UP:
-                if (Util.canMove(row - 1, col) && containsNode(row, col)) {
-                    snake.add(0, new Node(row - 1 , col));
-                    snake.remove(snake.size()-1);
-                }
+                if (Util.canMove(row - 1, col) && !containsNode(row - 1, col)) {
+                    
+                       snake.add(0, new Node(row - 1 , col));
+                       snake.remove(snake.size()-1); 
+                    
+                    
+                } 
                 break;
             case DOWN:
-                if (Util.canMove(row + 1, col) && containsNode(row, col)) {
-                    snake.add(0, new Node(row + 1 , col));
-                    snake.remove(snake.size()-1);
+                if (Util.canMove(row + 1, col) && !containsNode(row + 1, col)) {
+                    
+                       snake.add(0, new Node(row + 1 , col));
+                       snake.remove(snake.size()-1); 
+                    
                 }
                 break;
             case LEFT:
-                if (Util.canMove(row, col - 1) && containsNode(row, col)) {
-                    snake.add(0, new Node(row , col - 1));
-                    snake.remove(snake.size()-1);
+                if (Util.canMove(row, col - 1) && !containsNode(row, col - 1)) {
+                    
+                       snake.add(0, new Node(row , col - 1));
+                       snake.remove(snake.size()-1); 
+                    
                 }
                 break;
             case RIGHT:
-                if (Util.canMove(row, col + 1) && containsNode(row, col)) {
-                    snake.add(0, new Node(row , col + 1));
-                    snake.remove(snake.size()-1);
+                if (Util.canMove(row, col + 1) && !containsNode(row, col + 1)) {
+                    
+                       snake.add(0, new Node(row , col + 1));
+                       snake.remove(snake.size()-1); 
                     
                 }
                 break;
