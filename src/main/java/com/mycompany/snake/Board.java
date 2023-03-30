@@ -119,6 +119,15 @@ public class Board extends javax.swing.JPanel {
     }
     
     private void tick() {
+        Node node = snake.getSnake().get(0);
+        int currentRow = node.getRow();
+        int currentCol = node.getCol();
+        
+        if (canMove(currentRow, currentCol)) {
+            for (Node n : snake.getSnake()) {
+                
+            }
+        }
         
         repaint();
     }
