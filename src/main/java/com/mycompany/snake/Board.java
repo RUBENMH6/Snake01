@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import static java.lang.Math.random;
 import static java.lang.StrictMath.random;
-import java.util.*;
+import javax.swing.Timer;
 
 /**
  *
@@ -42,12 +42,12 @@ public class Board extends javax.swing.JPanel {
     private void myInit() {
         snake = new Snake();
         
-       /*timer = new Timer(100, new ActionListener() {
+       timer = new Timer(0, new ActionListener() {
        @Override
             public void actionPerformed(ActionEvent e) {
-        
+                tick();
             }
-        });*/
+        });
     
     }
             
