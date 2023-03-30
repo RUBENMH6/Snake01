@@ -10,7 +10,8 @@ package com.mycompany.snake;
  */
 public class Food extends Node {
     
-
+    
+    
     public Food(Snake snake) {
         super(0, 0);
         int randomRow = (int) (Math.random()*Config.instance.numRow)+1;

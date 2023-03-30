@@ -15,6 +15,7 @@ public class Node {
     public Node(int row, int col) {
         this.row = row;
         this.col = col;
+        
     }
     
     public int getRow() {
@@ -33,5 +34,9 @@ public class Node {
         this.col = col;
     }
     
+    @Override
+    public String toString() {
+        return row + " - " + col;
+    }
     
 }

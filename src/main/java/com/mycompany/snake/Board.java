@@ -9,6 +9,8 @@ import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import static java.lang.Math.random;
 import static java.lang.StrictMath.random;
 import javax.swing.Timer;
@@ -22,7 +24,41 @@ public class Board extends javax.swing.JPanel {
     private Snake snake;
     private Timer timer;
     private int deltaTime;
+    private Direction direction;
+    private MyKeyAdapter myKeyAdapter;
     
+    class MyKeyAdapter extends KeyAdapter {
+        
+        @Override
+        public void keyPressed(KeyEvent e) {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                    if (snake.canMove(snake.getSnake().get(0).getRow()-1, snake.getSnake().get(0).getCol())){
+                       snake.setDirection(Direction.LEFT);
+                    }
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    if (snake.canMove(snake.getSnake().get(0).getRow()-1, snake.getSnake().get(0).getCol())){
+                       snake.setDirection(Direction.RIGHT);
+                    }
+                    break;
+                case KeyEvent.VK_UP:
+                    if (snake.canMove(snake.getSnake().get(0).getRow()-1, snake.getSnake().get(0).getCol())){
+                       snake.setDirection(Direction.UP);
+                    }
+                    break;
+                case KeyEvent.VK_DOWN:
+                    if (snake.canMove(snake.getSnake().get(0).getRow()-1, snake.getSnake().get(0).getCol())){
+                       snake.setDirection(Direction.DOWN);
+                    }
+                    break;
+                
+                default:
+                    break;
+            }
+            repaint();
+        }
+    }
     
     
     
@@ -30,7 +66,10 @@ public class Board extends javax.swing.JPanel {
     public Board() {
         initComponents();
         myInit();
+        setFocusable(true);
     }
+    
+    
     public int squareWidth() {
         return getWidth() / Config.instance.numCol;
     }
@@ -40,28 +79,22 @@ public class Board extends javax.swing.JPanel {
     }
     
     private void myInit() {
-        snake = new Snake();
-        
-       timer = new Timer(0, new ActionListener() {
+       snake = new Snake();
+       myKeyAdapter = new MyKeyAdapter(); 
+       addKeyListener(myKeyAdapter);
+       timer = new Timer(500, new ActionListener() {
        @Override
             public void actionPerformed(ActionEvent e) {
                 tick();
             }
         });
-    
+        timer.start();
     }
             
         
      
     
-    public boolean canMove(int row, int col) {
-            
-        if (row > Config.instance.numRow || row < 0 ||
-                col > Config.instance.numCol || col < 0 || snake.containsNode(row, col)) {
-            return false;
-        }
-        return true;
-    }
+    
     
     @Override
     protected void paintComponent(Graphics g) {
@@ -74,7 +107,7 @@ public class Board extends javax.swing.JPanel {
     public void drawSquare(Graphics g, Node node, Type type) {
         
         Color colors[] = {new Color(204, 102, 102),new Color(204, 102, 204), new Color(218, 170, 0),new Color(218, 170, 204)};
-        
+        System.out.println(node);
         int x = node.getCol() * squareWidth();
         int y = node.getRow() * squareHeight();
         
@@ -119,17 +152,9 @@ public class Board extends javax.swing.JPanel {
     }
     
     private void tick() {
-        Node node = snake.getSnake().get(0);
-        int currentRow = node.getRow();
-        int currentCol = node.getCol();
-        
-        if (canMove(currentRow, currentCol)) {
-            for (Node n : snake.getSnake()) {
-                
-            }
-        }
-        
+        snake.move();
         repaint();
+        
     }
     
     public void setDeltaTime() {
