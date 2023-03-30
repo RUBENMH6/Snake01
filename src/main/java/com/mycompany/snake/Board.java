@@ -38,17 +38,17 @@ public class Board extends javax.swing.JPanel {
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
-                    if (snake.canMove(snake.getSnake().get(0).getRow()-1, snake.getSnake().get(0).getCol())){
+                    if (snake.canMove(snake.getSnake().get(0).getRow(), snake.getSnake().get(0).getCol()-1)){
                        snake.setDirection(Direction.RIGHT);
                     }
                     break;
                 case KeyEvent.VK_UP:
-                    if (snake.canMove(snake.getSnake().get(0).getRow()-1, snake.getSnake().get(0).getCol())){
+                    if (snake.canMove(snake.getSnake().get(0).getRow(), snake.getSnake().get(0).getCol()+1)){
                        snake.setDirection(Direction.UP);
                     }
                     break;
                 case KeyEvent.VK_DOWN:
-                    if (snake.canMove(snake.getSnake().get(0).getRow()-1, snake.getSnake().get(0).getCol())){
+                    if (snake.canMove(snake.getSnake().get(0).getRow()+1, snake.getSnake().get(0).getCol())){
                        snake.setDirection(Direction.DOWN);
                     }
                     break;
