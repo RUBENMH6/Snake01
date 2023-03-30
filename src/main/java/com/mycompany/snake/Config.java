@@ -16,9 +16,8 @@ public class Config {
     
     public int numRow = 20;
     public int numCol = 20;
-
     
-    
+   
     
     
     

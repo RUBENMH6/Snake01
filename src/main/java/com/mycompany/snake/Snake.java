@@ -9,6 +9,7 @@ import static com.mycompany.snake.Direction.DOWN;
 import static com.mycompany.snake.Direction.LEFT;
 import static com.mycompany.snake.Direction.RIGHT;
 import static com.mycompany.snake.Direction.UP;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +20,12 @@ public class Snake {
     private List<Node> snake;
     private Node node;
     private Direction direction;
-    
+    private Board board;
     public Snake() {
         direction = Direction.RIGHT;
         snake = new ArrayList<Node>();
         
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             snake.add(new Node(Config.instance.numRow/2, Config.instance.numCol/2 - i));
         }
     }
@@ -100,6 +101,9 @@ public class Snake {
                 break;
         }
     }
+    
+    
+     
 }
     
     

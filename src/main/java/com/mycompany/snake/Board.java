@@ -26,29 +26,34 @@ public class Board extends javax.swing.JPanel {
     private int deltaTime;
     private Direction direction;
     private MyKeyAdapter myKeyAdapter;
+    private Food food;
+    private SpecialFood sFood;
     
     class MyKeyAdapter extends KeyAdapter {
+        
+        private int row = snake.getSnake().get(0).getRow();     
+        private int col = snake.getSnake().get(0).getCol();
         
         @Override
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                    if (snake.canMove(snake.getSnake().get(0).getRow()-1, snake.getSnake().get(0).getCol())){
+                    if (snake.canMove(row - 1 , col)){
                        snake.setDirection(Direction.LEFT);
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
-                    if (snake.canMove(snake.getSnake().get(0).getRow(), snake.getSnake().get(0).getCol()-1)){
+                    if (snake.canMove(row, col - 1)){
                        snake.setDirection(Direction.RIGHT);
                     }
                     break;
                 case KeyEvent.VK_UP:
-                    if (snake.canMove(snake.getSnake().get(0).getRow(), snake.getSnake().get(0).getCol()+1)){
+                    if (snake.canMove(row , col + 1)){
                        snake.setDirection(Direction.UP);
                     }
                     break;
                 case KeyEvent.VK_DOWN:
-                    if (snake.canMove(snake.getSnake().get(0).getRow()+1, snake.getSnake().get(0).getCol())){
+                    if (snake.canMove(row, col - 1 )){
                        snake.setDirection(Direction.DOWN);
                     }
                     break;
@@ -80,6 +85,8 @@ public class Board extends javax.swing.JPanel {
     
     private void myInit() {
        snake = new Snake();
+       food = new Food(snake);
+       sFood = new SpecialFood(snake);
        myKeyAdapter = new MyKeyAdapter(); 
        addKeyListener(myKeyAdapter);
        timer = new Timer(500, new ActionListener() {
@@ -91,16 +98,15 @@ public class Board extends javax.swing.JPanel {
         timer.start();
     }
             
-        
-     
-    
-    
     
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
        
         snake.paint(this, g);
+        food.paintF(this, g);
+        sFood.paintSF(this, g);
+       
         Toolkit.getDefaultToolkit().sync();
     }
     
@@ -143,13 +149,6 @@ public class Board extends javax.swing.JPanel {
                 x + squareWidth() - 1, y + 1);
     }
     
-    public void paintFood(Board b, Graphics g, Node node) {
-        b.drawSquare(g, node, Type.FOOD);
-    }
-    
-    public void paintSpecialFood(Board b, Graphics g, Node node) {
-        b.drawSquare(g, node, Type.SPECIAL_FOOD);
-    }
     
     private void tick() {
         snake.move();
@@ -168,7 +167,9 @@ public class Board extends javax.swing.JPanel {
             default:
                 throw new AssertionError();
         }
-    }    
+    }
+
+    
         
     
     @SuppressWarnings("unchecked")

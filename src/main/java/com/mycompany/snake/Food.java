@@ -4,18 +4,21 @@
  */
 package com.mycompany.snake;
 
+import java.awt.Graphics;
+
 /**
  *
  * @author alu10211999
  */
 public class Food extends Node {
     
-    
+    private int randomRow;
+    private int randomCol;
     
     public Food(Snake snake) {
         super(0, 0);
-        int randomRow = (int) (Math.random()*Config.instance.numRow)+1;
-        int randomCol = (int) (Math.random()*Config.instance.numCol)+1;
+        randomRow = (int) (Math.random()*Config.instance.numRow)+1;
+        randomCol = (int) (Math.random()*Config.instance.numCol)+1;
         
         while (snake.containsNode(randomRow, randomCol)) {
             
@@ -24,4 +27,12 @@ public class Food extends Node {
           
         }
     }
+    
+    
+    public void paintF(Board b, Graphics g) {
+        b.drawSquare(g, new Node(randomRow,randomCol), Type.FOOD);
+    }
+    
+    
+    
 }
