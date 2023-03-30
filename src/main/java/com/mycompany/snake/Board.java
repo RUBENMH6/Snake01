@@ -28,6 +28,7 @@ public class Board extends javax.swing.JPanel {
     private MyKeyAdapter myKeyAdapter;
     private Food food;
     private SpecialFood sFood;
+    private Util util;
     
     class MyKeyAdapter extends KeyAdapter {
         
@@ -38,22 +39,22 @@ public class Board extends javax.swing.JPanel {
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                    if (snake.canMove(row - 1 , col)){
+                    if (Util.canMove(row - 1 , col)){
                        snake.setDirection(Direction.LEFT);
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
-                    if (snake.canMove(row, col - 1)){
+                    if (Util.canMove(row, col - 1)){
                        snake.setDirection(Direction.RIGHT);
                     }
                     break;
                 case KeyEvent.VK_UP:
-                    if (snake.canMove(row , col + 1)){
+                    if (Util.canMove(row , col + 1)){
                        snake.setDirection(Direction.UP);
                     }
                     break;
                 case KeyEvent.VK_DOWN:
-                    if (snake.canMove(row, col - 1 )){
+                    if (Util.canMove(row, col - 1 )){
                        snake.setDirection(Direction.DOWN);
                     }
                     break;
@@ -152,6 +153,7 @@ public class Board extends javax.swing.JPanel {
     
     private void tick() {
         snake.move();
+        
         repaint();
         
     }

@@ -21,6 +21,8 @@ public class Snake {
     private Node node;
     private Direction direction;
     private Board board;
+    private Util util;
+    
     public Snake() {
         direction = Direction.RIGHT;
         snake = new ArrayList<Node>();
@@ -58,14 +60,7 @@ public class Snake {
             
         }
     }
-    public boolean canMove(int row, int col) { 
-        if (row >= Config.instance.numRow || row < 0 ||
-                col >= Config.instance.numCol || col < 0 || containsNode(row, col) ) {
-            
-            return false;
-        }
-        return true;
-    }
+    
     
     public void move() {
         
@@ -75,25 +70,25 @@ public class Snake {
         
         switch(direction) {
             case UP:
-                if (canMove(row - 1, col)) {
+                if (Util.canMove(row - 1, col) && containsNode(row, col)) {
                     snake.add(0, new Node(row - 1 , col));
                     snake.remove(snake.size()-1);
                 }
                 break;
             case DOWN:
-                if (canMove(row + 1, col)) {
+                if (Util.canMove(row + 1, col) && containsNode(row, col)) {
                     snake.add(0, new Node(row + 1 , col));
                     snake.remove(snake.size()-1);
                 }
                 break;
             case LEFT:
-                if (canMove(row, col - 1)) {
+                if (Util.canMove(row, col - 1) && containsNode(row, col)) {
                     snake.add(0, new Node(row , col - 1));
                     snake.remove(snake.size()-1);
                 }
                 break;
             case RIGHT:
-                if (canMove(row, col + 1)) {
+                if (Util.canMove(row, col + 1) && containsNode(row, col)) {
                     snake.add(0, new Node(row , col + 1));
                     snake.remove(snake.size()-1);
                     

@@ -34,4 +34,16 @@ public class SpecialFood extends Food {
     public void paintSF(Board b, Graphics g) {
         b.drawSquare(g, new Node(row,col), Type.FOOD);
     }
+    
+    public void move(Snake snake) {
+        row = (int) (Math.random()*Config.instance.numRow)+1;
+        col = (int) (Math.random()*Config.instance.numCol)+1;
+        
+        while (Util.canMove(row, col) && snake.containsNode(row, col)) {
+            
+            row = (int) (Math.random()*Config.instance.numRow)+1;
+            col = (int) (Math.random()*Config.instance.numCol)+1;
+          
+        }
+    }
 }
