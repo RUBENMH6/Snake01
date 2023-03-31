@@ -12,39 +12,43 @@ import java.awt.Graphics;
  */
 public class Food extends Node {
     
-    private int randomRow;
-    private int randomCol;
-    private Util util;
+    private int foodRow;
+    private int foodCol;
+    
     
     public Food(Snake snake) {
         super(0, 0);
-        randomRow = (int) (Math.random()*Config.instance.numRow)+1;
-        randomCol = (int) (Math.random()*Config.instance.numCol)+1;
+        foodRow = (int) (Math.random()*Config.instance.numRow);
+        foodCol = (int) (Math.random()*Config.instance.numCol)+1;
         
-        while (snake.containsNode(randomRow, randomCol)) {
+        while (snake.containsNode(foodRow, foodCol)) {
             
-            randomRow = (int) (Math.random()*Config.instance.numRow)+1;
-            randomCol = (int) (Math.random()*Config.instance.numCol)+1;
-          
+            foodRow = (int) (Math.random()*Config.instance.numRow);
+            foodCol = (int) (Math.random()*Config.instance.numCol)+1;
+            System.out.println(foodRow + "," + foodCol);
         }
     }
     
     
     public void paintF(Board b, Graphics g) {
-        b.drawSquare(g, new Node(randomRow,randomCol), Type.FOOD);
+        b.drawSquare(g, new Node(foodRow,foodCol), Type.FOOD);
     }
     
     public void move(Snake snake) {
-        randomRow = (int) (Math.random()*Config.instance.numRow)+1;
-        randomCol = (int) (Math.random()*Config.instance.numCol)+1;
+        int row = (int) (Math.random()*Config.instance.numRow)+1;
+        int col = (int) (Math.random()*Config.instance.numCol)+1;
         
-        while (Util.canMove(randomRow, randomCol) && snake.containsNode(randomRow, randomCol)) {
+        while (Util.canMove(foodRow, foodCol) && snake.containsNode(foodRow, foodCol)) {
             
-            randomRow = (int) (Math.random()*Config.instance.numRow)+1;
-            randomCol = (int) (Math.random()*Config.instance.numCol)+1;
+            row = (int) (Math.random()*Config.instance.numRow)+1;
+            col = (int) (Math.random()*Config.instance.numCol)+1;
           
         }
+        setRow(row);
+        setCol(col);
     }
+    
+    
     
     
     

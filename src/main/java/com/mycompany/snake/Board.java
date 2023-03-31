@@ -6,6 +6,7 @@ package com.mycompany.snake;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.List;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -106,15 +107,21 @@ public class Board extends javax.swing.JPanel {
        
         snake.paint(this, g);
         food.paintF(this, g);
-        sFood.paintSF(this, g);
+        
        
         Toolkit.getDefaultToolkit().sync();
+    }
+
+    public Food getFood() {
+        return food;
     }
     
     public void drawSquare(Graphics g, Node node, Type type) {
         
         Color colors[] = {new Color(204, 102, 102),new Color(204, 102, 204), new Color(218, 170, 0),new Color(218, 170, 204)};
-        System.out.println(node);
+        if (type == Type.FOOD) {
+            System.out.println(node);
+        }
         int x = node.getCol() * squareWidth();
         int y = node.getRow() * squareHeight();
         
@@ -150,6 +157,9 @@ public class Board extends javax.swing.JPanel {
                 x + squareWidth() - 1, y + 1);
     }
     
+    public List getListSnake() {
+        return (List) snake.getSnake();
+    }
     
     private void tick() {
         snake.move();
@@ -170,6 +180,8 @@ public class Board extends javax.swing.JPanel {
                 throw new AssertionError();
         }
     }
+     
+   
 
     
         

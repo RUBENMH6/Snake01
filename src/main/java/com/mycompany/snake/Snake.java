@@ -28,7 +28,7 @@ public class Snake {
     public Snake() {
         direction = Direction.RIGHT;
         snake = new ArrayList<Node>();
-        
+        food = new Food(this);
         for (int i = 0; i < 4; i++) {
             snake.add(new Node(Config.instance.numRow/2, Config.instance.numCol/2 - i));
         }
@@ -70,47 +70,68 @@ public class Snake {
         
         int row = snake.get(0).getRow();
         int col = snake.get(0).getCol();
-        
-        
+
         
         switch(direction) {
             case UP:
                 if (Util.canMove(row - 1, col) && !containsNode(row - 1, col)) {
-                    
+                    if (checkFood()) {
+                       snake.add(0, new Node(row - 1 , col));
+                       food.move(this);
+                    } else {
                        snake.add(0, new Node(row - 1 , col));
                        snake.remove(snake.size()-1); 
-                    
+                    }
                     
                 } 
                 break;
             case DOWN:
                 if (Util.canMove(row + 1, col) && !containsNode(row + 1, col)) {
-                    
+                    if (checkFood()) {
+                       snake.add(0, new Node(row + 1, col));
+                       food.move(this);
+                    } else {
                        snake.add(0, new Node(row + 1 , col));
                        snake.remove(snake.size()-1); 
-                    
+                    }
                 }
                 break;
             case LEFT:
                 if (Util.canMove(row, col - 1) && !containsNode(row, col - 1)) {
-                    
+                    if (checkFood()) {
+                       snake.add(0, new Node(row , col - 1));
+                       food.move(this);
+                    } else {
                        snake.add(0, new Node(row , col - 1));
                        snake.remove(snake.size()-1); 
-                    
+                    }
                 }
                 break;
             case RIGHT:
                 if (Util.canMove(row, col + 1) && !containsNode(row, col + 1)) {
-                    
+                    if (checkFood()) {
+                       snake.add(0, new Node(row , col + 1));
+                       food.move(this);
+                    } else {
                        snake.add(0, new Node(row , col + 1));
                        snake.remove(snake.size()-1); 
-                    
+                    }
                 }
                 break;
         }
     }
     
-    
+    public boolean checkFood() {
+        
+        int row = snake.get(0).getRow();
+        int col = snake.get(0).getCol();
+        
+        int fRow = food.getRow();
+        int fCol = food.getCol();
+        
+        return (row == fRow && col == fCol);
+ 
+    }
      
 }
     

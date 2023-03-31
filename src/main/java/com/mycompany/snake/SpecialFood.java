@@ -12,38 +12,44 @@ import java.awt.Graphics;
  */
 public class SpecialFood extends Food {
     
-    private int row;
-    private int col;
+    private int specialFoodRow;
+    private int specialFoodCol;
     
     
     public SpecialFood(Snake snake) {
         super(snake);
         
-        row = (int) (Math.random()*Config.instance.numRow)+1;
-        col = (int) (Math.random()*Config.instance.numCol)+1;
+        specialFoodRow = (int) (Math.random()*Config.instance.numRow)+1;
+        specialFoodCol = (int) (Math.random()*Config.instance.numCol)+1;
         
-        while (snake.containsNode(row, col)) {
+        while (snake.containsNode(specialFoodRow, specialFoodCol)) {
             
-            row = (int) (Math.random()*Config.instance.numRow)+1;
-            col = (int) (Math.random()*Config.instance.numCol)+1;
+            specialFoodRow = (int) (Math.random()*Config.instance.numRow)+1;
+            specialFoodCol = (int) (Math.random()*Config.instance.numCol)+1;
           
         }
     }
     
     
     public void paintSF(Board b, Graphics g) {
-        b.drawSquare(g, new Node(row,col), Type.FOOD);
+        b.drawSquare(g, new Node(specialFoodRow,specialFoodCol), Type.FOOD);
     }
     
     public void move(Snake snake) {
-        row = (int) (Math.random()*Config.instance.numRow)+1;
-        col = (int) (Math.random()*Config.instance.numCol)+1;
+        specialFoodRow = (int) (Math.random()*Config.instance.numRow)+1;
+        specialFoodCol = (int) (Math.random()*Config.instance.numCol)+1;
         
-        while (Util.canMove(row, col) && snake.containsNode(row, col)) {
+        while (Util.canMove(specialFoodRow, specialFoodCol) && snake.containsNode(specialFoodRow, specialFoodCol)) {
             
-            row = (int) (Math.random()*Config.instance.numRow)+1;
-            col = (int) (Math.random()*Config.instance.numCol)+1;
+            specialFoodRow = (int) (Math.random()*Config.instance.numRow)+1;
+            specialFoodCol = (int) (Math.random()*Config.instance.numCol)+1;
           
         }
+    }
+    public int getSpecialFoodRow() {
+        return specialFoodRow;
+    }
+    public int getSpecialFoodCol() {
+        return specialFoodCol;
     }
 }
