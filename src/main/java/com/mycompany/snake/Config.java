@@ -14,6 +14,9 @@ public class Config {
     private int level; 
     private String name;
     
+
+    
+    
     public int numRow = 20;
     public int numCol = 20;
     
@@ -26,6 +29,10 @@ public class Config {
         name = "Player";
     }
 
+    public int getLevel() {
+        return level;
+    }
+    
     public void setLevel(int level) {
         if (level < 0) { 
             this.level = 0;
@@ -36,36 +43,15 @@ public class Config {
         }
     }
 
+    public String getName() {
+        return name;
+    }
+    
     public void setName(String name) {
         this.name = name;
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-    public String getName() {
-        return name;
-    }
- 
-    public int getNumRow() {
-
-        return numRow;
-    }
-
-    public void setNumRow(int rows) {
-        this.numRow = rows;
-    }
-
-    public int getNumCol() {
-        return numCol;
-    }
-
-    public void setNumCol(int cols) {
-        this.numCol = cols;
-    }
-    
-    
+   
     
     
     

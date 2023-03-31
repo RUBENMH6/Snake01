@@ -35,21 +35,5 @@ public class SpecialFood extends Food {
         b.drawSquare(g, new Node(specialFoodRow,specialFoodCol), Type.FOOD);
     }
     
-    public void move(Snake snake) {
-        specialFoodRow = (int) (Math.random()*Config.instance.numRow)+1;
-        specialFoodCol = (int) (Math.random()*Config.instance.numCol)+1;
-        
-        while (Util.canMove(specialFoodRow, specialFoodCol) && snake.containsNode(specialFoodRow, specialFoodCol)) {
-            
-            specialFoodRow = (int) (Math.random()*Config.instance.numRow)+1;
-            specialFoodCol = (int) (Math.random()*Config.instance.numCol)+1;
-          
-        }
-    }
-    public int getSpecialFoodRow() {
-        return specialFoodRow;
-    }
-    public int getSpecialFoodCol() {
-        return specialFoodCol;
-    }
+    
 }

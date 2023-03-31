@@ -14,6 +14,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import static java.lang.Math.random;
 import static java.lang.StrictMath.random;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 /**
@@ -29,7 +30,18 @@ public class Board extends javax.swing.JPanel {
     private MyKeyAdapter myKeyAdapter;
     private Food food;
     private SpecialFood sFood;
-    private Util util;
+    private int score;
+    
+    private Incrementer incrementer;
+
+    public Incrementer getIncrementer() {
+        return incrementer;
+    }
+
+    public void setIncrementer(Incrementer incrementer) {
+        this.incrementer = incrementer;
+    }
+    
     
     class MyKeyAdapter extends KeyAdapter {
         
@@ -40,22 +52,22 @@ public class Board extends javax.swing.JPanel {
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                    if (Util.canMove(row - 1 , col)){
+                    if (snake.canMove(row - 1 , col) && !snake.getDirection().equals(Direction.RIGHT)){
                        snake.setDirection(Direction.LEFT);
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
-                    if (Util.canMove(row, col - 1)){
+                    if (snake.canMove(row, col - 1) && !snake.getDirection().equals(Direction.LEFT)){
                        snake.setDirection(Direction.RIGHT);
                     }
                     break;
                 case KeyEvent.VK_UP:
-                    if (Util.canMove(row , col + 1)){
+                    if (snake.canMove(row , col + 1) && !snake.getDirection().equals(Direction.DOWN)){
                        snake.setDirection(Direction.UP);
                     }
                     break;
                 case KeyEvent.VK_DOWN:
-                    if (Util.canMove(row, col - 1 )){
+                    if (snake.canMove(row, col - 1 ) && !snake.getDirection().equals(Direction.UP)){
                        snake.setDirection(Direction.DOWN);
                     }
                     break;
@@ -104,9 +116,10 @@ public class Board extends javax.swing.JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-       
-        snake.paint(this, g);
+        
         food.paintF(this, g);
+        snake.paint(this, g);
+        
         
        
         Toolkit.getDefaultToolkit().sync();
@@ -118,7 +131,9 @@ public class Board extends javax.swing.JPanel {
     
     public void drawSquare(Graphics g, Node node, Type type) {
         
+ 
         Color colors[] = {new Color(204, 102, 102),new Color(204, 102, 204), new Color(218, 170, 0),new Color(218, 170, 204)};
+        
         if (type == Type.FOOD) {
             System.out.println(node);
         }
@@ -163,8 +178,15 @@ public class Board extends javax.swing.JPanel {
     
     private void tick() {
         snake.move();
+        if (snake.eats(food)) {
+            snake.getSnake().add(snake.sizeSnake(), new Node(snake.getRowLastNode() ,  snake.getColLastNode() ));
+            food = new Food(snake);
+            incrementer.incrementScore(10);
+        }
+        processGameOver();
         
         repaint();
+        Toolkit.getDefaultToolkit().sync();
         
     }
     
@@ -180,7 +202,13 @@ public class Board extends javax.swing.JPanel {
                 throw new AssertionError();
         }
     }
-     
+    
+    public void processGameOver() {
+        if (snake.isGameOver()) {
+            JOptionPane.showMessageDialog(this, "YOU LOSE", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
+            timer.stop();
+        }
+    }
    
 
     

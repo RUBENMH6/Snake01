@@ -21,14 +21,14 @@ public class Snake {
     private Node node;
     private Direction direction;
     private Board board;
-    private Util util;
-    private Food food;
     private SpecialFood sFood;
+    private boolean gameOver = false;
+
+    
     
     public Snake() {
         direction = Direction.RIGHT;
         snake = new ArrayList<Node>();
-        food = new Food(this);
         for (int i = 0; i < 4; i++) {
             snake.add(new Node(Config.instance.numRow/2, Config.instance.numCol/2 - i));
         }
@@ -36,9 +36,7 @@ public class Snake {
         
     }
 
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
+    
     
     public boolean containsNode(int row, int col) {
         for (Node node: snake) {
@@ -65,7 +63,14 @@ public class Snake {
         }
     }
     
-    
+    public static boolean canMove(int row, int col) {
+        if (row >= Config.instance.numRow || row < 0 ||
+                col >= Config.instance.numCol || col < 0 ) {
+            
+            return false;
+        }
+        return true;
+    }
     public void move() {
         
         int row = snake.get(0).getRow();
@@ -74,65 +79,68 @@ public class Snake {
         
         switch(direction) {
             case UP:
-                if (Util.canMove(row - 1, col) && !containsNode(row - 1, col)) {
-                    if (checkFood()) {
-                       snake.add(0, new Node(row - 1 , col));
-                       food.move(this);
-                    } else {
-                       snake.add(0, new Node(row - 1 , col));
-                       snake.remove(snake.size()-1); 
-                    }
-                    
-                } 
+                if (canMove(row - 1, col) && !containsNode(row - 1, col)) {
+                    snake.add(0, new Node(row - 1 , col));
+                    snake.remove(snake.size()-1); 
+                } else {
+                    gameOver = true;
+                }
                 break;
             case DOWN:
-                if (Util.canMove(row + 1, col) && !containsNode(row + 1, col)) {
-                    if (checkFood()) {
-                       snake.add(0, new Node(row + 1, col));
-                       food.move(this);
-                    } else {
-                       snake.add(0, new Node(row + 1 , col));
-                       snake.remove(snake.size()-1); 
-                    }
+                if (canMove(row + 1, col) && !containsNode(row + 1, col)) { 
+                    snake.add(0, new Node(row + 1 , col));  
+                    snake.remove(snake.size()-1);
+                } else {
+                    gameOver = true;
                 }
                 break;
             case LEFT:
-                if (Util.canMove(row, col - 1) && !containsNode(row, col - 1)) {
-                    if (checkFood()) {
-                       snake.add(0, new Node(row , col - 1));
-                       food.move(this);
-                    } else {
-                       snake.add(0, new Node(row , col - 1));
-                       snake.remove(snake.size()-1); 
-                    }
+                if (canMove(row, col - 1) && !containsNode(row, col - 1)) {
+                    snake.add(0, new Node(row , col - 1));
+                    snake.remove(snake.size()-1); 
+                } else {
+                    gameOver = true;
                 }
                 break;
             case RIGHT:
-                if (Util.canMove(row, col + 1) && !containsNode(row, col + 1)) {
-                    if (checkFood()) {
-                       snake.add(0, new Node(row , col + 1));
-                       food.move(this);
-                    } else {
-                       snake.add(0, new Node(row , col + 1));
-                       snake.remove(snake.size()-1); 
-                    }
+                if (canMove(row, col + 1) && !containsNode(row, col + 1)) {
+                    snake.add(0, new Node(row , col + 1));
+                    snake.remove(snake.size()-1); 
+                } else {
+                    gameOver = true;
                 }
                 break;
         }
     }
+
+    public Direction getDirection() {
+        return direction;
+    }
     
-    public boolean checkFood() {
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+    
+    public boolean isGameOver() {
+        return gameOver;
+    }
+    
+    public boolean eats(Food food) {
         
-        int row = snake.get(0).getRow();
-        int col = snake.get(0).getCol();
-        
-        int fRow = food.getRow();
-        int fCol = food.getCol();
-        
-        return (row == fRow && col == fCol);
- 
+        return getSnake().get(0).getRow() == food.getRow() && getSnake().get(0).getCol() == food.getCol();
+    }
+    
+    public int sizeSnake() {
+        return snake.size()-1;
     }
      
+    public int getRowLastNode() {
+        return snake.get(sizeSnake()).getRow();
+    }
+    
+    public int getColLastNode() {
+        return snake.get(sizeSnake()).getCol();
+    }
 }
     
     

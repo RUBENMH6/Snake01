@@ -10,8 +10,9 @@ import java.awt.Color;
  *
  * @author alu10211999
  */
-public class Scoredboard extends javax.swing.JPanel {
+public class Scoredboard extends javax.swing.JPanel implements Incrementer {
 
+    private int score;
     /**
      * Creates new form Scoredboard
      */
@@ -23,6 +24,27 @@ public class Scoredboard extends javax.swing.JPanel {
     private void myInit() {
         setBackground(Color.RED);
     }
+    
+    public void resetScore() {
+        score = 0;
+        labelName.setText(Config.instance.getName());
+        labelScore.setText("0");
+    }
+    
+    public void incrementScore(int increment) {
+        score += increment;
+        labelScore.setText(""+ score);
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,30 +56,16 @@ public class Scoredboard extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        textFieldScore = new javax.swing.JTextField();
-        textFieldPlayer = new javax.swing.JTextField();
+        labelScore = new javax.swing.JLabel();
+        labelName = new javax.swing.JLabel();
 
         jLabel1.setText("Score:");
 
         jLabel2.setText("Player:");
 
-        textFieldScore.setEditable(false);
-        textFieldScore.setText("0");
-        textFieldScore.setFocusable(false);
-        textFieldScore.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldScoreActionPerformed(evt);
-            }
-        });
+        labelScore.setText("0");
 
-        textFieldPlayer.setEditable(false);
-        textFieldPlayer.setFocusable(false);
-        textFieldPlayer.setRequestFocusEnabled(false);
-        textFieldPlayer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldPlayerActionPerformed(evt);
-            }
-        });
+        labelName.setText("NoName");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -66,41 +74,33 @@ public class Scoredboard extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(92, 92, 92)
                 .addComponent(jLabel1)
-                .addGap(40, 40, 40)
-                .addComponent(textFieldScore, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
+                .addComponent(labelScore, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(65, 65, 65)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textFieldPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addGap(74, 74, 74)
+                .addComponent(labelName, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(137, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(textFieldScore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(textFieldPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                    .addComponent(labelScore)
+                    .addComponent(labelName))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void textFieldScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldScoreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textFieldScoreActionPerformed
-
-    private void textFieldPlayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldPlayerActionPerformed
-        textFieldPlayer.setText(Config.instance.getName());
-    }//GEN-LAST:event_textFieldPlayerActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField textFieldPlayer;
-    private javax.swing.JTextField textFieldScore;
+    private javax.swing.JLabel labelName;
+    private javax.swing.JLabel labelScore;
     // End of variables declaration//GEN-END:variables
 
     
