@@ -41,6 +41,9 @@ public class Board extends javax.swing.JPanel {
     public void setIncrementer(Incrementer incrementer) {
         this.incrementer = incrementer;
     }
+
+    
+    
     
     
     class MyKeyAdapter extends KeyAdapter {
@@ -119,6 +122,7 @@ public class Board extends javax.swing.JPanel {
         
         food.paintF(this, g);
         snake.paint(this, g);
+        sFood.paintSF(this, g);
         
         
        
@@ -178,10 +182,17 @@ public class Board extends javax.swing.JPanel {
     
     private void tick() {
         snake.move();
-        if (snake.eats(food)) {
+        if (snake.eatsFood(food)) {
             snake.getSnake().add(snake.sizeSnake(), new Node(snake.getRowLastNode() ,  snake.getColLastNode() ));
             food = new Food(snake);
             incrementer.incrementScore(10);
+        } else if (snake.eatsSpecialFood(sFood)) {
+            for (int i = 0; i < 3 ; i++) {
+                snake.getSnake().add(snake.sizeSnake(), new Node(snake.getRowLastNode() ,  snake.getColLastNode() ));
+            }
+            
+            sFood = new SpecialFood(snake);
+            incrementer.incrementScore(30);
         }
         processGameOver();
         
