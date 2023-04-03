@@ -21,16 +21,22 @@ import javax.swing.Timer;
  *
  * @author alu10211999
  */
-public class Board extends javax.swing.JPanel {
+public class Board extends javax.swing.JPanel   {
 
     private Snake snake;
     private Timer timer;
+    private Timer timerStart;
+    private Timer timerStop;
     private int deltaTime;
     private Direction direction;
     private MyKeyAdapter myKeyAdapter;
     private Food food;
     private SpecialFood sFood;
     private int score;
+    private int counter = 0;
+    
+    
+    public static final int SCORE_FOOD = 10;
     
     private Incrementer incrementer;
 
@@ -41,6 +47,8 @@ public class Board extends javax.swing.JPanel {
     public void setIncrementer(Incrementer incrementer) {
         this.incrementer = incrementer;
     }
+
+    
 
     
     
@@ -103,10 +111,12 @@ public class Board extends javax.swing.JPanel {
     private void myInit() {
        snake = new Snake();
        food = new Food(snake);
-       sFood = new SpecialFood(snake);
+       
+          
+       
        myKeyAdapter = new MyKeyAdapter(); 
        addKeyListener(myKeyAdapter);
-       timer = new Timer(500, new ActionListener() {
+       timer = new Timer(250, new ActionListener() {
        @Override
             public void actionPerformed(ActionEvent e) {
                 tick();
@@ -122,25 +132,33 @@ public class Board extends javax.swing.JPanel {
         
         food.paintF(this, g);
         snake.paint(this, g);
-        sFood.paintSF(this, g);
+        if (existSFood()) {
+           sFood.paintSF(this, g); 
+        }
+        
+        
+        
         
         
        
         Toolkit.getDefaultToolkit().sync();
     }
-
+    
+    
     public Food getFood() {
         return food;
+    }
+    
+    public List getListSnake() {
+        return (List) snake.getSnake();
     }
     
     public void drawSquare(Graphics g, Node node, Type type) {
         
  
-        Color colors[] = {new Color(204, 102, 102),new Color(204, 102, 204), new Color(218, 170, 0),new Color(218, 170, 204)};
+        Color colors[] = {new Color(204, 102, 102),new Color(204, 102, 204), new Color(218, 170, 0),new Color(218, 0, 204)};
         
-        if (type == Type.FOOD) {
-            System.out.println(node);
-        }
+        
         int x = node.getCol() * squareWidth();
         int y = node.getRow() * squareHeight();
         
@@ -176,29 +194,90 @@ public class Board extends javax.swing.JPanel {
                 x + squareWidth() - 1, y + 1);
     }
     
-    public List getListSnake() {
-        return (List) snake.getSnake();
-    }
+    
     
     private void tick() {
         snake.move();
-        if (snake.eatsFood(food)) {
-            snake.getSnake().add(snake.sizeSnake(), new Node(snake.getRowLastNode() ,  snake.getColLastNode() ));
-            food = new Food(snake);
-            incrementer.incrementScore(10);
-        } else if (snake.eatsSpecialFood(sFood)) {
-            for (int i = 0; i < 3 ; i++) {
-                snake.getSnake().add(snake.sizeSnake(), new Node(snake.getRowLastNode() ,  snake.getColLastNode() ));
-            }
-            
-            sFood = new SpecialFood(snake);
-            incrementer.incrementScore(30);
-        }
+        generateSFood();
+        
+        checkFood();
+        checkSpecialFood();
         processGameOver();
+        int random = (int) (Math.random()*2);
+        
+        if (random == 1) {
+            counter++;
+        }
         
         repaint();
         Toolkit.getDefaultToolkit().sync();
         
+    }
+    
+    public void checkFood() {
+        if (snake.eatsFood(food)) {
+            snake.getSnake().add(snake.sizeSnake(), new Node(snake.getRowLastNode() ,  snake.getColLastNode() ));
+            food = new Food(snake);
+            incrementer.incrementScore(SCORE_FOOD);
+            
+        }
+        
+        
+            
+            
+        
+    }
+    
+    public void generateSFood() {
+        if (counter == 10) {
+            sFood = new SpecialFood(snake);
+            counter = 0;
+            tickStop();
+        }
+    }
+    
+    
+    public void tickStop() {
+        if (existSFood()) {
+           timerStop = new Timer(5000, new ActionListener() {
+          @Override
+            public void actionPerformed(ActionEvent e) {
+                sFood = null;
+            }
+        }); 
+           timerStop.start();
+        }
+        
+        
+    }
+    
+    public void checkSpecialFood() {
+        if (existSFood()) {
+           if (snake.eatsSpecialFood(sFood)) {
+                for (int i = 0; i < 3 ; i++) {
+                snake.getSnake().add(snake.sizeSnake(), new Node(snake.getRowLastNode() ,  snake.getColLastNode() ));
+                incrementer.incrementScore(SCORE_FOOD);
+                }
+            
+            sFood = new SpecialFood(snake);
+            } 
+        }
+            
+            
+        
+    }
+    public boolean existSFood() {
+        if (sFood == null) {
+            return false;
+        }
+        return true;
+    }
+    
+    public void processGameOver() {
+        if (snake.isGameOver()) {
+            JOptionPane.showMessageDialog(this, "YOU LOSE", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
+            timer.stop();
+        }
     }
     
     public void setDeltaTime() {
@@ -214,12 +293,7 @@ public class Board extends javax.swing.JPanel {
         }
     }
     
-    public void processGameOver() {
-        if (snake.isGameOver()) {
-            JOptionPane.showMessageDialog(this, "YOU LOSE", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
-            timer.stop();
-        }
-    }
+    
    
 
     

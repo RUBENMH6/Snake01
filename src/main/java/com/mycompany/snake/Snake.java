@@ -22,8 +22,17 @@ public class Snake {
     private Direction direction;
     private Board board;
     private SpecialFood sFood;
+    private Food food;
     private boolean gameOver = false;
+    public int counterFood = 0;
 
+    public int getCounterFood() {
+        return counterFood;
+    }
+
+    public void setCounterFood(int counterFood) {
+        this.counterFood = counterFood;
+    }
     
     
     public Snake() {
@@ -125,10 +134,17 @@ public class Snake {
         return gameOver;
     }
     
-    public boolean eats(Food food) {
-        
+    public boolean eatsFood(Food food) {
         return getSnake().get(0).getRow() == food.getRow() && getSnake().get(0).getCol() == food.getCol();
     }
+    public boolean eatsSpecialFood(SpecialFood sFood) {
+        
+        return getSnake().get(0).getRow() == sFood.getRow() && getSnake().get(0).getCol() == sFood.getCol();
+        
+        
+    }
+    
+    
     
     public int sizeSnake() {
         return snake.size()-1;

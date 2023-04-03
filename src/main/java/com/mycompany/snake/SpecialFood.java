@@ -5,6 +5,9 @@
 package com.mycompany.snake;
 
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
 
 /**
  *
@@ -14,20 +17,30 @@ public class SpecialFood extends Food {
     
     private int specialFoodRow;
     private int specialFoodCol;
-    
+
+  
+
+
     
     public SpecialFood(Snake snake) {
         super(snake);
         
-        specialFoodRow = (int) (Math.random()*Config.instance.numRow)+1;
-        specialFoodCol = (int) (Math.random()*Config.instance.numCol)+1;
+        specialFoodRow = (int) (Math.random()*Config.instance.numRow);
+        specialFoodCol = (int) (Math.random()*Config.instance.numCol);
         
         while (snake.containsNode(specialFoodRow, specialFoodCol)) {
             
-            specialFoodRow = (int) (Math.random()*Config.instance.numRow)+1;
-            specialFoodCol = (int) (Math.random()*Config.instance.numCol)+1;
+            specialFoodRow = (int) (Math.random()*Config.instance.numRow);
+            specialFoodCol = (int) (Math.random()*Config.instance.numCol);
           
         }
+        setRow(specialFoodRow);
+        setCol(specialFoodCol);
+        
+        
+        
+         
+        
     }
     
     
