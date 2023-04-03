@@ -34,6 +34,7 @@ public class Board extends javax.swing.JPanel   {
     private SpecialFood sFood;
     private int score;
     private int counter = 0;
+    private boolean reseter = true;
     
     
     public static final int SCORE_FOOD = 10;
@@ -198,7 +199,7 @@ public class Board extends javax.swing.JPanel   {
     
     private void tick() {
         snake.move();
-        generateSFood();
+        
         
         checkFood();
         checkSpecialFood();
@@ -207,8 +208,9 @@ public class Board extends javax.swing.JPanel   {
         
         if (random == 1) {
             counter++;
+            System.out.println(counter);
         }
-        
+        generateSFood();
         repaint();
         Toolkit.getDefaultToolkit().sync();
         
@@ -224,11 +226,22 @@ public class Board extends javax.swing.JPanel   {
     }
     
     public void generateSFood() {
-        if (counter == 30) {
-            sFood = new SpecialFood(snake);
+        if (counter == 25 ) {
+            if (reseter ==true) {
+               sFood = new SpecialFood(snake);
+                if (timerStop != null) {
+                     if (timerStop.isRunning()) {
+                         timerStop.stop();                      
+                    }  
+                     tickStop();
+                }
+                reseter = false;
+            }
+            
             counter = 0;
-            tickStop();
+     
         }
+        
     }
     
     
@@ -238,13 +251,20 @@ public class Board extends javax.swing.JPanel   {
           @Override
             public void actionPerformed(ActionEvent e) {
                 sFood = null;
+                counter = 0;
+                timerStop.stop();
+                reseter = true;
+
+
             }
         }); 
            timerStop.start();
+           
         }
         
         
     }
+    
     
     public void checkSpecialFood() {
         if (existSFood()) {
@@ -253,8 +273,11 @@ public class Board extends javax.swing.JPanel   {
                 snake.getSnake().add(snake.sizeSnake(), new Node(snake.getRowLastNode() ,  snake.getColLastNode() ));
                 incrementer.incrementScore(SCORE_FOOD);
                 }
-            
+            counter = 0;
             sFood = null;
+            if (timerStop != null) {
+               timerStop.stop(); 
+                }
             } 
         }
             
