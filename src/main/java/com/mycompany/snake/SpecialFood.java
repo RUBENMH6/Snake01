@@ -18,9 +18,6 @@ public class SpecialFood extends Food {
     private int specialFoodRow;
     private int specialFoodCol;
 
-  
-
-
     
     public SpecialFood(Snake snake) {
         super(snake);
@@ -34,6 +31,7 @@ public class SpecialFood extends Food {
             specialFoodCol = (int) (Math.random()*Config.instance.numCol);
           
         }
+        
         setRow(specialFoodRow);
         setCol(specialFoodCol);
         
@@ -45,7 +43,7 @@ public class SpecialFood extends Food {
     
     
     public void paintSF(Board b, Graphics g) {
-        b.drawSquare(g, new Node(specialFoodRow,specialFoodCol), Type.FOOD);
+        b.drawSquare(g, new Node(specialFoodRow,specialFoodCol), Type.SPECIAL_FOOD);
     }
     
     

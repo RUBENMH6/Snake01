@@ -156,7 +156,7 @@ public class Board extends javax.swing.JPanel   {
     public void drawSquare(Graphics g, Node node, Type type) {
         
  
-        Color colors[] = {new Color(204, 102, 102),new Color(204, 102, 204), new Color(218, 170, 0),new Color(218, 0, 204)};
+        Color colors[] = {new Color(204, 102, 102),new Color(204, 102, 204), new Color(218, 170, 0),new Color(150, 0, 204)};
         
         
         int x = node.getCol() * squareWidth();
@@ -218,18 +218,13 @@ public class Board extends javax.swing.JPanel   {
         if (snake.eatsFood(food)) {
             snake.getSnake().add(snake.sizeSnake(), new Node(snake.getRowLastNode() ,  snake.getColLastNode() ));
             food = new Food(snake);
-            incrementer.incrementScore(SCORE_FOOD);
-            
-        }
-        
-        
-            
-            
+            incrementer.incrementScore(SCORE_FOOD);          
+        }           
         
     }
     
     public void generateSFood() {
-        if (counter == 10) {
+        if (counter == 30) {
             sFood = new SpecialFood(snake);
             counter = 0;
             tickStop();
@@ -239,7 +234,7 @@ public class Board extends javax.swing.JPanel   {
     
     public void tickStop() {
         if (existSFood()) {
-           timerStop = new Timer(5000, new ActionListener() {
+           timerStop = new Timer(10000, new ActionListener() {
           @Override
             public void actionPerformed(ActionEvent e) {
                 sFood = null;
@@ -259,7 +254,7 @@ public class Board extends javax.swing.JPanel   {
                 incrementer.incrementScore(SCORE_FOOD);
                 }
             
-            sFood = new SpecialFood(snake);
+            sFood = null;
             } 
         }
             
