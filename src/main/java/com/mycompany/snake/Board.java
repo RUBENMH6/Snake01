@@ -34,7 +34,7 @@ public class Board extends javax.swing.JPanel   {
     private SpecialFood sFood;
     private int score;
     private int counter = 0;
-    private boolean reseter = true;
+    
     
     
     public static final int SCORE_FOOD = 10;
@@ -53,7 +53,9 @@ public class Board extends javax.swing.JPanel   {
 
     
     
-    
+    /**
+     * Clase KeyAdapter para mover la snake.
+     */
     
     class MyKeyAdapter extends KeyAdapter {
         
@@ -93,22 +95,33 @@ public class Board extends javax.swing.JPanel   {
     
     
     
-    
+    /**
+     * Constructor de la clase Board.
+     */
     public Board() {
         initComponents();
         myInit();
         setFocusable(true);
     }
     
-    
+    /**
+     * Calcula el ancho de cada cuadrado que compone el board.
+     * @return 
+     */
     public int squareWidth() {
         return getWidth() / Config.instance.numCol;
     }
-    
+    /**
+     * Calcula el alto de cada cuadrado que compone el board.
+     * @return 
+     */
     public int squareHeight() {
         return getHeight() / Config.instance.numRow;
     }
     
+    /**
+     * Inicia atributos.
+     */
     private void myInit() {
        snake = new Snake();
        food = new Food(snake);
@@ -126,7 +139,10 @@ public class Board extends javax.swing.JPanel   {
         timer.start();
     }
             
-    
+    /**
+     * Pinta en el board los componentes.
+     * @param g 
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -136,24 +152,30 @@ public class Board extends javax.swing.JPanel   {
         if (existSFood()) {
            sFood.paintSF(this, g); 
         }
-        
-        
-        
-        
-        
-       
         Toolkit.getDefaultToolkit().sync();
     }
     
-    
+    /**
+     * Devuelve el Food que existe en board.
+     * @return - Food
+     */
     public Food getFood() {
         return food;
     }
-    
+    /**
+     * Devuelve la lista de Nodos que representa la Snake.
+     * @return - List
+     */
     public List getListSnake() {
         return (List) snake.getSnake();
     }
     
+    /**
+     * Dibuja un nodo y dependiendo del tipo, lo dibuja de un color u otro.
+     * @param g - Graphics
+     * @param node - El nodo que dibuja
+     * @param type - El tipo de nodo que dibuja
+     */
     public void drawSquare(Graphics g, Node node, Type type) {
         
  
@@ -196,26 +218,39 @@ public class Board extends javax.swing.JPanel   {
     }
     
     
-    
+    /**
+     * Método que se ejecuta a cada tick del timer
+     */
     private void tick() {
+        //Move snake.
         snake.move();
         
-        
         checkFood();
+        //It is verified that in the next node there is spcial food or not 
         checkSpecialFood();
+        //It is verified that in the next node it is not lost
         processGameOver();
+        
+        //Two random numbers are created from 0 to 1.
         int random = (int) (Math.random()*2);
         
+        //If the number is 1, it is added to the counter (It takes 25 to spawn a food)
         if (random == 1) {
             counter++;
             System.out.println(counter);
         }
+        
+        
         generateSFood();
+        
+        //Repaint all components.
         repaint();
         Toolkit.getDefaultToolkit().sync();
         
     }
-    
+    /**
+     * It is verified that in the next node there is food or not
+     */
     public void checkFood() {
         if (snake.eatsFood(food)) {
             snake.getSnake().add(snake.sizeSnake(), new Node(snake.getRowLastNode() ,  snake.getColLastNode() ));
@@ -224,7 +259,9 @@ public class Board extends javax.swing.JPanel   {
         }           
         
     }
-    
+    /**
+     * Try to create a special food.
+     */
     public void generateSFood() {
         if (counter == 25 ) {
             if (timerStop != null) {
@@ -239,7 +276,9 @@ public class Board extends javax.swing.JPanel   {
         
     }
     
-    
+    /**
+     * A new timer is created to clear the special food when it reaches a certain time.
+     */
     public void tickStop() {
         if (existSFood()) {
            timerStop = new Timer(10000, new ActionListener() {
@@ -248,10 +287,6 @@ public class Board extends javax.swing.JPanel   {
                 sFood = null;
                 counter = 0;
                 timerStop.stop();
-                
-               
-
-
             }
         }); 
            timerStop.start();
