@@ -227,19 +227,14 @@ public class Board extends javax.swing.JPanel   {
     
     public void generateSFood() {
         if (counter == 25 ) {
-            if (reseter ==true) {
-               sFood = new SpecialFood(snake);
-                if (timerStop != null) {
-                     if (timerStop.isRunning()) {
-                         timerStop.stop();                      
-                    }  
-                     tickStop();
-                }
-                reseter = false;
-            }
-            
+            if (timerStop != null) {
+                if (timerStop.isRunning()) {
+                    timerStop.stop();                      
+                }   
+            } 
+            sFood = new SpecialFood(snake);
+            tickStop();
             counter = 0;
-     
         }
         
     }
@@ -253,7 +248,8 @@ public class Board extends javax.swing.JPanel   {
                 sFood = null;
                 counter = 0;
                 timerStop.stop();
-                reseter = true;
+                
+               
 
 
             }
