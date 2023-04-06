@@ -130,7 +130,7 @@ public class Board extends javax.swing.JPanel   {
        
        myKeyAdapter = new MyKeyAdapter(); 
        addKeyListener(myKeyAdapter);
-       timer = new Timer(250, new ActionListener() {
+       timer = new Timer(100, new ActionListener() {
        @Override
             public void actionPerformed(ActionEvent e) {
                 tick();
@@ -263,14 +263,18 @@ public class Board extends javax.swing.JPanel   {
      * Try to create a special food.
      */
     public void generateSFood() {
-        if (counter == 25 ) {
+        if (counter == 50 ) {
             if (timerStop != null) {
                 if (timerStop.isRunning()) {
                     timerStop.stop();                      
-                }   
-            } 
-            sFood = new SpecialFood(snake);
-            tickStop();
+                }   else {
+                    sFood = new SpecialFood(snake);
+                    tickStop();
+                }
+            } else {
+                sFood = new SpecialFood(snake);
+                tickStop();
+            }
             counter = 0;
         }
         
