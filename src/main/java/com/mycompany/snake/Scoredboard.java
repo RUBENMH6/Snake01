@@ -27,7 +27,6 @@ public class Scoredboard extends javax.swing.JPanel implements Incrementer {
     
     public void resetScore() {
         score = 0;
-        labelName.setText(Config.instance.getName());
         labelScore.setText("0");
     }
     
@@ -55,32 +54,22 @@ public class Scoredboard extends javax.swing.JPanel implements Incrementer {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         labelScore = new javax.swing.JLabel();
-        labelName = new javax.swing.JLabel();
 
         jLabel1.setText("Score:");
 
-        jLabel2.setText("Player:");
-
         labelScore.setText("0");
-
-        labelName.setText("NoName");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(92, 92, 92)
+                .addContainerGap(278, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(52, 52, 52)
+                .addGap(66, 66, 66)
                 .addComponent(labelScore, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(65, 65, 65)
-                .addComponent(jLabel2)
-                .addGap(74, 74, 74)
-                .addComponent(labelName, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addGap(207, 207, 207))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -88,9 +77,7 @@ public class Scoredboard extends javax.swing.JPanel implements Incrementer {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(labelScore)
-                    .addComponent(labelName))
+                    .addComponent(labelScore))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -98,8 +85,6 @@ public class Scoredboard extends javax.swing.JPanel implements Incrementer {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel labelName;
     private javax.swing.JLabel labelScore;
     // End of variables declaration//GEN-END:variables
 

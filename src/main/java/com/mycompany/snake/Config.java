@@ -12,7 +12,9 @@ public class Config {
     
     public static Config instance = new Config();
     private int level; 
-    private String name;
+    private int deltaTime;
+    private int timeSpecialFood;
+    private int appearSpecialFood;
     
 
     
@@ -26,7 +28,6 @@ public class Config {
     
     private Config() {
         level = 0;
-        name = "Player";
     }
 
     public int getLevel() {
@@ -43,15 +44,49 @@ public class Config {
         }
     }
 
-    public String getName() {
-        return name;
+    public int getDeltaTime(){
+        switch(level) {
+            case 0: 
+                deltaTime = 750;
+            case 1: 
+                deltaTime = 500;
+            case 2: 
+                deltaTime = 250;
+            default:
+                deltaTime = 750;
+                
+        }
+        return deltaTime;
     }
     
-    public void setName(String name) {
-        this.name = name;
+    public int getTimeSpecialFood() {
+        switch(level){
+            case 0:
+                timeSpecialFood = 12000;
+            case 1:
+                timeSpecialFood = 900;
+            case 2:
+                timeSpecialFood = 6000;
+            default:
+                timeSpecialFood = 12000;
+        }
+        return timeSpecialFood;
     }
-
    
+    public int getAppearSpecialFood() {
+        switch(level) {
+            case 0:
+                appearSpecialFood = 20;
+            case 1: 
+                appearSpecialFood = 35;
+            case 2:
+                appearSpecialFood = 50;
+            default:
+                appearSpecialFood = 20;
+                    
+        }
+        return appearSpecialFood;
+    }
     
     
     
