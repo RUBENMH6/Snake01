@@ -35,6 +35,10 @@ public class Board extends javax.swing.JPanel   {
     private int score;
     private int counter = 0;
     
+    private int deltaTimeGame;
+    private int timeSFood;
+    private int appearSFood;
+    
     
     
     public static final int SCORE_FOOD = 10;
@@ -126,11 +130,14 @@ public class Board extends javax.swing.JPanel   {
        snake = new Snake();
        food = new Food(snake);
        
+       deltaTimeGame = Config.instance.getDeltaTime();
+       timeSFood = Config.instance.getTimeSpecialFood();
+       appearSFood = Config.instance.getAppearSpecialFood();
           
        
        myKeyAdapter = new MyKeyAdapter(); 
        addKeyListener(myKeyAdapter);
-       timer = new Timer(100, new ActionListener() {
+       timer = new Timer(deltaTimeGame, new ActionListener() {
        @Override
             public void actionPerformed(ActionEvent e) {
                 tick();
@@ -179,7 +186,7 @@ public class Board extends javax.swing.JPanel   {
     public void drawSquare(Graphics g, Node node, Type type) {
         
  
-        Color colors[] = {new Color(204, 102, 102),new Color(204, 102, 204), new Color(218, 170, 0),new Color(150, 0, 204)};
+        Color colors[] = {new Color(204, 102, 102),new Color(204, 102, 204), new Color(150,255,51),new Color(150, 0, 204)};
         
         
         int x = node.getCol() * squareWidth();
@@ -206,10 +213,10 @@ public class Board extends javax.swing.JPanel   {
         
         g.fillRect(x + 1, y + 1, squareWidth() - 2,
                 squareHeight() - 2);
-        g.setColor(g.getColor().brighter());
+        g.setColor(Color.BLACK);
         g.drawLine(x, y + squareHeight() - 1, x, y);
         g.drawLine(x, y, x + squareWidth() - 1, y);
-        g.setColor(g.getColor().darker());
+        g.setColor(Color.BLACK);
         g.drawLine(x + 1, y + squareHeight() - 1,
                 x + squareWidth() - 1, y + squareHeight() - 1);
         g.drawLine(x + squareWidth() - 1,
@@ -263,7 +270,7 @@ public class Board extends javax.swing.JPanel   {
      * Try to create a special food.
      */
     public void generateSFood() {
-        if (counter == 50 ) {
+        if (counter == appearSFood ) {
             if (timerStop != null) {
                 if (timerStop.isRunning()) {
                     timerStop.stop();                      
@@ -285,7 +292,7 @@ public class Board extends javax.swing.JPanel   {
      */
     public void tickStop() {
         if (existSFood()) {
-           timerStop = new Timer(10000, new ActionListener() {
+           timerStop = new Timer(timeSFood, new ActionListener() {
           @Override
             public void actionPerformed(ActionEvent e) {
                 sFood = null;
@@ -356,9 +363,10 @@ public class Board extends javax.swing.JPanel   {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setBackground(new java.awt.Color(172, 163, 255));
         setMaximumSize(new java.awt.Dimension(500, 500));
         setPreferredSize(new java.awt.Dimension(500, 500));
-        setLayout(new java.awt.GridLayout());
+        setLayout(new java.awt.GridLayout(1, 0));
     }// </editor-fold>//GEN-END:initComponents
 
     
