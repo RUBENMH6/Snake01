@@ -15,6 +15,11 @@ public class Config {
     private int deltaTime;
     private int timeSpecialFood;
     private int appearSpecialFood;
+    private int rule;
+    private int food;
+    public ApperianceFood aFood;
+
+    
     
 
     
@@ -40,54 +45,60 @@ public class Config {
         } else if (level > 2) {
             this.level = 2;
         } else {
-            this.level = level;
+            this.level = 1;
         }
     }
 
     public int getDeltaTime(){
         switch(level) {
             case 0: 
-                deltaTime = 750;
-            case 1: 
                 deltaTime = 500;
-            case 2: 
+            case 1: 
                 deltaTime = 250;
+            case 2: 
+                deltaTime = 100;
             default:
-                deltaTime = 750;
+                deltaTime = 500;
                 
         }
         return deltaTime;
     }
     
-    public int getTimeSpecialFood() {
-        switch(level){
-            case 0:
-                timeSpecialFood = 12000;
-            case 1:
-                timeSpecialFood = 900;
-            case 2:
-                timeSpecialFood = 6000;
+    
+    public void setAFood(int food) {
+        switch(aFood) {
+            case APPLE: 
+                food = 0;
+                break;
+            case PEAR:
+                food = 1;
+                break;
+            case PINEAPPLE:
+                food = 2;
+                break;
+            case PEACH:
+                food = 3;
+                break;
             default:
-                timeSpecialFood = 12000;
+                food = 0;          
         }
-        return timeSpecialFood;
     }
-   
-    public int getAppearSpecialFood() {
-        switch(level) {
-            case 0:
-                appearSpecialFood = 20;
-            case 1: 
-                appearSpecialFood = 35;
-            case 2:
-                appearSpecialFood = 50;
-            default:
-                appearSpecialFood = 20;
-                    
-        }
-        return appearSpecialFood;
+
+    public int getAFood() {
+        return food;
     }
     
     
+    public int getRule() {
+        return rule;
+    }
+
+    public void setRule(int rule) {
+        if (rule == 0) {
+            this.rule = 0;
+        } else {
+            this.rule = 1;
+        }
+    }
     
 }
