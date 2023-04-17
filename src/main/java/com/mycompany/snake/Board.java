@@ -113,11 +113,22 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
     @Override
     public void initGame() {
         counter = 0;
-        timer.stop();
+        food = new Food(snake);
+        
         removeKeyListener(myKeyAdapter);
         addKeyListener(myKeyAdapter);
         removeComponents();
         myInit();
+        timer = new Timer(deltaTimeGame, new ActionListener() {
+       
+              
+       @Override
+            public void actionPerformed(ActionEvent e) {
+                tick();
+                
+            }
+        });
+        timer.start();
     }
     
     /**
@@ -147,9 +158,9 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
     /**
      * Inicia atributos.
      */
-    private void myInit() {
+    public void myInit() {
        snake = new Snake();
-       food = new Food(snake);
+       
        
        setDeltaTime();
        setTimeSpecialFood();
@@ -161,16 +172,7 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
         System.out.println(deltaTimeGame);
         System.out.println(timeSFood);
         System.out.println(appearSFood);
-       timer = new Timer(deltaTimeGame, new ActionListener() {
        
-              
-       @Override
-            public void actionPerformed(ActionEvent e) {
-                tick();
-                
-            }
-        });
-        timer.start();
     }
             
     /**
@@ -180,8 +182,11 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        if (existFood()) {
+            food.paintF(this, g);
+                    
+        }
         
-        food.paintF(this, g);
         snake.paint(this, g);
         if (existSFood()) {
            sFood.paintSF(this, g); 
@@ -213,8 +218,8 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
     public void drawSquare(Graphics g, Node node, Type type) {
         
  
-        Color colors[] = {new Color(204, 102, 102),new Color(204, 102, 204), new Color(150,255,51),new Color(150, 0, 204)};
-        
+        Color colors[] = {new Color(204, 102, 102),new Color(204, 102, 204), new Color(255,97,51),new Color(150, 0, 204)};
+        Color colorsFood[] = {new Color(255,97,51), new Color(159,255,51), new Color(255,227,51), new Color(255,144,51)};
         
         int x = node.getCol() * squareWidth();
         int y = node.getRow() * squareHeight();
@@ -227,7 +232,7 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
                 g.setColor(colors[1]);
                 break;
             case FOOD:
-                g.setColor(colors[2]);
+                g.setColor(colorsFood[Config.instance.getAFood()]);
                 break;
             case SPECIAL_FOOD:
                 g.setColor(colors[3]);
@@ -353,6 +358,13 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
             
         
     }
+    public boolean existFood() {
+        if (food == null) {
+            return false;
+        }
+        return true;
+    }
+    
     public boolean existSFood() {
         if (sFood == null) {
             return false;
@@ -364,7 +376,7 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
         if (snake.isGameOver()) {
             JOptionPane.showMessageDialog(this, "YOU LOSE", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
             timer.stop();
-            removeKeyListener(myKeyAdapter);
+            
         }
     }
     
@@ -385,24 +397,32 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
         switch(Config.instance.getLevel()){
             case 0:
                 timeSFood = 12000;
+                break;
             case 1:
-                timeSFood = 900;
+                timeSFood = 9000;
+                break;
             case 2:
                 timeSFood = 6000;
+                break;
             default:
                 timeSFood = 12000;
+                break;
         }
     }
     public void setAppearSpecialFood() {
         switch(Config.instance.getLevel()) {
             case 0:
                 appearSFood = 20;
+                break;
             case 1: 
                 appearSFood = 35;
+                break;
             case 2:
                 appearSFood = 50;
+                break;
             default:
                 appearSFood = 20;
+                break;
                     
         }
         
