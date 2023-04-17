@@ -5,6 +5,7 @@
 package com.mycompany.snake;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.List;
 import java.awt.Toolkit;
@@ -21,13 +22,13 @@ import javax.swing.Timer;
  *
  * @author alu10211999
  */
-public class Board extends javax.swing.JPanel   {
+public class Board extends javax.swing.JPanel implements InitGamer  {
 
     private Snake snake;
     private Timer timer;
     private Timer timerStart;
     private Timer timerStop;
-    private int deltaTime;
+    
     private Direction direction;
     private MyKeyAdapter myKeyAdapter;
     private Food food;
@@ -54,6 +55,14 @@ public class Board extends javax.swing.JPanel   {
     }
 
     
+    
+    public void removeComponents() {
+        for (Component component : getComponents()) {
+            remove(component);
+        }
+    }
+
+    
 
     
     
@@ -70,21 +79,25 @@ public class Board extends javax.swing.JPanel   {
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
+                case KeyEvent.VK_A:
                     if (snake.canMove(row - 1 , col) && !snake.getDirection().equals(Direction.RIGHT)){
                        snake.setDirection(Direction.LEFT);
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
+                case KeyEvent.VK_D:
                     if (snake.canMove(row, col - 1) && !snake.getDirection().equals(Direction.LEFT)){
                        snake.setDirection(Direction.RIGHT);
                     }
                     break;
                 case KeyEvent.VK_UP:
+                case KeyEvent.VK_W:
                     if (snake.canMove(row , col + 1) && !snake.getDirection().equals(Direction.DOWN)){
                        snake.setDirection(Direction.UP);
                     }
                     break;
                 case KeyEvent.VK_DOWN:
+                case KeyEvent.VK_S:
                     if (snake.canMove(row, col - 1 ) && !snake.getDirection().equals(Direction.UP)){
                        snake.setDirection(Direction.DOWN);
                     }
@@ -97,7 +110,15 @@ public class Board extends javax.swing.JPanel   {
         }
     }
     
-    
+    @Override
+    public void initGame() {
+        counter = 0;
+        timer.stop();
+        removeKeyListener(myKeyAdapter);
+        addKeyListener(myKeyAdapter);
+        removeComponents();
+        myInit();
+    }
     
     /**
      * Constructor de la clase Board.
@@ -130,17 +151,23 @@ public class Board extends javax.swing.JPanel   {
        snake = new Snake();
        food = new Food(snake);
        
-       deltaTimeGame = Config.instance.getDeltaTime();
-       timeSFood = Config.instance.getTimeSpecialFood();
-       appearSFood = Config.instance.getAppearSpecialFood();
+       setDeltaTime();
+       setTimeSpecialFood();
+       setAppearSpecialFood();
           
        
        myKeyAdapter = new MyKeyAdapter(); 
        addKeyListener(myKeyAdapter);
+        System.out.println(deltaTimeGame);
+        System.out.println(timeSFood);
+        System.out.println(appearSFood);
        timer = new Timer(deltaTimeGame, new ActionListener() {
+       
+              
        @Override
             public void actionPerformed(ActionEvent e) {
                 tick();
+                
             }
         });
         timer.start();
@@ -310,7 +337,7 @@ public class Board extends javax.swing.JPanel   {
     
     public void checkSpecialFood() {
         if (existSFood()) {
-           if (snake.eatsSpecialFood(sFood)) {
+           if (snake.eatsFood(sFood)) {
                 for (int i = 0; i < 3 ; i++) {
                 snake.getSnake().add(snake.sizeSnake(), new Node(snake.getRowLastNode() ,  snake.getColLastNode() ));
                 incrementer.incrementScore(SCORE_FOOD);
@@ -337,20 +364,48 @@ public class Board extends javax.swing.JPanel   {
         if (snake.isGameOver()) {
             JOptionPane.showMessageDialog(this, "YOU LOSE", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
             timer.stop();
+            removeKeyListener(myKeyAdapter);
         }
     }
     
     public void setDeltaTime() {
         switch (Config.instance.getLevel()) {
-            case 0: deltaTime = 500;
+            case 0: deltaTimeGame = 500;
                 break;
-            case 1: deltaTime = 300;
+            case 1: deltaTimeGame = 250;
                 break;
-            case 2: deltaTime = 150;
+            case 2: deltaTimeGame = 100;
                 break;
             default:
                 throw new AssertionError();
         }
+    }
+    
+    public void setTimeSpecialFood() {
+        switch(Config.instance.getLevel()){
+            case 0:
+                timeSFood = 12000;
+            case 1:
+                timeSFood = 900;
+            case 2:
+                timeSFood = 6000;
+            default:
+                timeSFood = 12000;
+        }
+    }
+    public void setAppearSpecialFood() {
+        switch(Config.instance.getLevel()) {
+            case 0:
+                appearSFood = 20;
+            case 1: 
+                appearSFood = 35;
+            case 2:
+                appearSFood = 50;
+            default:
+                appearSFood = 20;
+                    
+        }
+        
     }
     
     
