@@ -61,7 +61,11 @@ public class Snake {
     }
     
     public void paint(Board b, Graphics g) {
+        
+        
         for (int i = 0; i < snake.size() ; i++) {
+            
+            
             if (i == 0) {
               b.drawSquare(g,snake.get(i), Type.HEAD);  
             } else {
@@ -73,13 +77,17 @@ public class Snake {
     }
     
     public static boolean canMove(int row, int col) {
-        if (row >= Config.instance.numRow || row < 0 ||
+        if (Config.instance.getRule() == 1) {
+            if (row >= Config.instance.numRow || row < 0 ||
                 col >= Config.instance.numCol || col < 0 ) {
             
             return false;
+            }
         }
         return true;
+        
     }
+    
     public void move() {
         
         int row = snake.get(0).getRow();
@@ -89,15 +97,25 @@ public class Snake {
         switch(direction) {
             case UP:
                 if (canMove(row - 1, col) && !containsNode(row - 1, col)) {
-                    snake.add(0, new Node(row - 1 , col));
-                    snake.remove(snake.size()-1); 
+                    if (row <= 0) {
+                        snake.add(0, new Node(Config.instance.numRow - 1, col));
+                    } else {
+                        snake.add(0, new Node(row - 1 , col));
+                    }
+                    snake.remove(snake.size()-1);
+                     
                 } else {
                     gameOver = true;
                 }
                 break;
             case DOWN:
                 if (canMove(row + 1, col) && !containsNode(row + 1, col)) { 
-                    snake.add(0, new Node(row + 1 , col));  
+                    if (row >= Config.instance.numRow) {
+                       snake.add(0, new Node(0, col));
+                    } else {
+                       snake.add(0, new Node(row + 1 , col)); 
+                    }
+                      
                     snake.remove(snake.size()-1);
                 } else {
                     gameOver = true;
@@ -105,7 +123,12 @@ public class Snake {
                 break;
             case LEFT:
                 if (canMove(row, col - 1) && !containsNode(row, col - 1)) {
-                    snake.add(0, new Node(row , col - 1));
+                   if (col <= 0) {
+                      snake.add(0, new Node(row , Config.instance.numCol-1));  
+                    } else {
+                      snake.add(0, new Node(row , col - 1));
+                    }
+                    
                     snake.remove(snake.size()-1); 
                 } else {
                     gameOver = true;
@@ -113,7 +136,11 @@ public class Snake {
                 break;
             case RIGHT:
                 if (canMove(row, col + 1) && !containsNode(row, col + 1)) {
-                    snake.add(0, new Node(row , col + 1));
+                    if (col >= Config.instance.numCol) {
+                      snake.add(0, new Node(row , 0));  
+                    } else {
+                      snake.add(0, new Node(row , col + 1));
+                    }
                     snake.remove(snake.size()-1); 
                 } else {
                     gameOver = true;
@@ -137,12 +164,7 @@ public class Snake {
     public boolean eatsFood(Food food) {
         return getSnake().get(0).getRow() == food.getRow() && getSnake().get(0).getCol() == food.getCol();
     }
-    public boolean eatsSpecialFood(SpecialFood sFood) {
-        
-        return getSnake().get(0).getRow() == sFood.getRow() && getSnake().get(0).getCol() == sFood.getCol();
-        
-        
-    }
+    
     
     
     
