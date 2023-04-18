@@ -17,12 +17,9 @@ public class Config {
     private int appearSpecialFood;
     private int rule;
     private int food;
-    public ApperianceFood aFood;
 
-    
-    
 
-    
+
     
     public int numRow = 20;
     public int numCol = 20;
@@ -66,22 +63,7 @@ public class Config {
     
     
     public void setAFood(int food) {
-        switch(aFood) {
-            case APPLE: 
-                food = 1;
-                break;
-            case PEAR:
-                food = 2;
-                break;
-            case PINEAPPLE:
-                food = 3;
-                break;
-            case PEACH:
-                food = 4;
-                break;
-            default:
-                food = 1;          
-        }
+        this.food = food;
     }
 
     public int getAFood() {

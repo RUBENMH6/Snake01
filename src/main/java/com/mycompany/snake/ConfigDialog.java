@@ -126,6 +126,7 @@ public class ConfigDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_comboLevelActionPerformed
 
     private void buttonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOkActionPerformed
+        
         initGame.initGame();
         dispose();
     }//GEN-LAST:event_buttonOkActionPerformed

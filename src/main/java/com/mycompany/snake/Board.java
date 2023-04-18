@@ -25,7 +25,7 @@ import javax.swing.Timer;
 public class Board extends javax.swing.JPanel implements InitGamer  {
 
     private Snake snake;
-    private Timer timer;
+    public Timer timer;
     private Timer timerStart;
     private Timer timerStop;
     
@@ -42,10 +42,15 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
     
     
     
+    private boolean startGame = true;
+    
+    
+    
     public static final int SCORE_FOOD = 10;
     
     private Incrementer incrementer;
-
+    private GetScorer getScorer;
+    
     public Incrementer getIncrementer() {
         return incrementer;
     }
@@ -118,9 +123,10 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
         removeKeyListener(myKeyAdapter);
         addKeyListener(myKeyAdapter);
         removeComponents();
-        myInit();
-        if (!timer.isRunning()) {
-            timer = new Timer(deltaTimeGame, new ActionListener() {
+        
+        
+        if (startGame == true) {
+          timer = new Timer(deltaTimeGame, new ActionListener() {
        
               
        @Override
@@ -130,7 +136,11 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
             }
         });
         timer.start();
+        startGame = false;
         }
+        
+        myInit();
+        
         
         
     }
@@ -298,6 +308,7 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
      * It is verified that in the next node there is food or not
      */
     public void checkFood() {
+        
         if (snake.eatsFood(food)) {
             snake.getSnake().add(snake.sizeSnake(), new Node(snake.getRowLastNode() ,  snake.getColLastNode() ));
             food = new Food(snake);
@@ -383,6 +394,7 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
         if (snake.isGameOver()) {
             JOptionPane.showMessageDialog(this, "YOU LOSE", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
             timer.stop();
+            getScorer.upgradeHighScore();
             
         }
     }

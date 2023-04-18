@@ -10,9 +10,10 @@ import java.awt.Color;
  *
  * @author alu10211999
  */
-public class Scoredboard extends javax.swing.JPanel implements Incrementer {
+public class Scoredboard extends javax.swing.JPanel implements Incrementer, GetScorer {
 
     private int score;
+    private int highScore;
     private InitGamer initGame;
 
     public void setInitGame(InitGamer initGame) {
@@ -35,6 +36,11 @@ public class Scoredboard extends javax.swing.JPanel implements Incrementer {
         labelScore.setText("0");
     }
     
+    public void resetHighScore() {
+        highScore = 0;
+        labelHighScore.setText("0");
+    }
+    
     public void incrementScore(int increment) {
         score += increment;
         labelScore.setText(""+ score);
@@ -48,6 +54,11 @@ public class Scoredboard extends javax.swing.JPanel implements Incrementer {
         this.score = score;
     }
     
+    public void updateHighScore(int score) {
+        if (score > highScore) {
+            labelHighScore.setText(labelScore.getText());
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,21 +71,31 @@ public class Scoredboard extends javax.swing.JPanel implements Incrementer {
 
         jLabel1 = new javax.swing.JLabel();
         labelScore = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        labelHighScore = new javax.swing.JLabel();
 
         jLabel1.setText("Score:");
 
         labelScore.setText("0");
+
+        jLabel2.setText("High Score:");
+
+        labelHighScore.setText("0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(278, Short.MAX_VALUE)
+                .addGap(102, 102, 102)
                 .addComponent(jLabel1)
-                .addGap(66, 66, 66)
+                .addGap(29, 29, 29)
                 .addComponent(labelScore, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(207, 207, 207))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 158, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(labelHighScore, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(89, 89, 89))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -82,16 +103,27 @@ public class Scoredboard extends javax.swing.JPanel implements Incrementer {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(labelScore))
-                .addContainerGap(19, Short.MAX_VALUE))
+                    .addComponent(labelScore)
+                    .addComponent(jLabel2)
+                    .addComponent(labelHighScore))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel labelHighScore;
     private javax.swing.JLabel labelScore;
     // End of variables declaration//GEN-END:variables
+
+    
+
+    @Override
+    public void getScorer() {
+        
+    }
 
     
 }
