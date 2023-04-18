@@ -31,14 +31,9 @@ public class SpecialFood extends Food {
             specialFoodCol = (int) (Math.random()*Config.instance.numCol);
           
         }
-        
+       
         setRow(specialFoodRow);
         setCol(specialFoodCol);
-        
-        
-        
-         
-        
     }
     
     

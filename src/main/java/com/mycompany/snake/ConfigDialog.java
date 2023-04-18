@@ -10,12 +10,18 @@ package com.mycompany.snake;
  */
 public class ConfigDialog extends javax.swing.JDialog {
 
+    
+    private InitGamer initGame;
     /**
      * Creates new form ConfigDialog
      */
     public ConfigDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    public void setInitGame(InitGamer initGame) {
+        this.initGame = initGame;
     }
 
     /**
@@ -30,6 +36,10 @@ public class ConfigDialog extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         comboLevel = new javax.swing.JComboBox<>();
         buttonOk = new javax.swing.JButton();
+        comboRule = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        comboFood = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -49,18 +59,42 @@ public class ConfigDialog extends javax.swing.JDialog {
             }
         });
 
+        comboRule.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Without walls", "With walls" }));
+        comboRule.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboRuleActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Rule");
+
+        comboFood.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Apple", "Pear", "Pineapple", "Peach" }));
+        comboFood.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboFoodActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Food");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addComponent(jLabel1)
-                .addGap(32, 32, 32)
-                .addComponent(comboLevel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+                .addGap(71, 71, 71)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(comboRule, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboLevel, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboFood, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
                 .addComponent(buttonOk)
-                .addGap(49, 49, 49))
+                .addGap(40, 40, 40))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -68,9 +102,20 @@ public class ConfigDialog extends javax.swing.JDialog {
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(comboLevel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonOk))
-                .addContainerGap(45, Short.MAX_VALUE))
+                    .addComponent(comboLevel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(buttonOk)
+                .addGap(19, 19, 19))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(79, 79, 79)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboRule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboFood, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addContainerGap(116, Short.MAX_VALUE))
         );
 
         pack();
@@ -81,8 +126,17 @@ public class ConfigDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_comboLevelActionPerformed
 
     private void buttonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOkActionPerformed
+        initGame.initGame();
         dispose();
     }//GEN-LAST:event_buttonOkActionPerformed
+
+    private void comboRuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboRuleActionPerformed
+        Config.instance.setRule(comboRule.getSelectedIndex());
+    }//GEN-LAST:event_comboRuleActionPerformed
+
+    private void comboFoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFoodActionPerformed
+        Config.instance.setAFood(comboFood.getSelectedIndex());
+    }//GEN-LAST:event_comboFoodActionPerformed
 
     /**
      * @param args the command line arguments
@@ -128,7 +182,11 @@ public class ConfigDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonOk;
+    private javax.swing.JComboBox<String> comboFood;
     private javax.swing.JComboBox<String> comboLevel;
+    private javax.swing.JComboBox<String> comboRule;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }

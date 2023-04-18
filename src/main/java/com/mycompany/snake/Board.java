@@ -119,7 +119,8 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
         addKeyListener(myKeyAdapter);
         removeComponents();
         myInit();
-        timer = new Timer(deltaTimeGame, new ActionListener() {
+        if (!timer.isRunning()) {
+            timer = new Timer(deltaTimeGame, new ActionListener() {
        
               
        @Override
@@ -129,6 +130,9 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
             }
         });
         timer.start();
+        }
+        
+        
     }
     
     /**
@@ -182,15 +186,18 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
+        snake.paint(this, g);
+        
         if (existFood()) {
             food.paintF(this, g);
                     
         }
         
-        snake.paint(this, g);
         if (existSFood()) {
            sFood.paintSF(this, g); 
         }
+        
         Toolkit.getDefaultToolkit().sync();
     }
     

@@ -22,6 +22,7 @@ public class Game extends javax.swing.JFrame {
     
     private void myInit() {
         board.setIncrementer(scoredboard);
+        scoredboard.setInitGame(board);
     }
     
     @SuppressWarnings("unchecked")
@@ -31,15 +32,14 @@ public class Game extends javax.swing.JFrame {
         scoredboard = new com.mycompany.snake.Scoredboard();
         board = new com.mycompany.snake.Board();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        menuConfig = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        menuGame = new javax.swing.JMenu();
+        menuStart = new javax.swing.JMenuItem();
+        menuConfig = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         scoredboard.setBackground(new java.awt.Color(217, 118, 255));
         scoredboard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        scoredboard.setForeground(new java.awt.Color(0, 0, 0));
         getContentPane().add(scoredboard, java.awt.BorderLayout.PAGE_START);
 
         board.setBackground(new java.awt.Color(206, 196, 252));
@@ -47,39 +47,49 @@ public class Game extends javax.swing.JFrame {
         board.setLayout(new java.awt.GridLayout(500, 500));
         getContentPane().add(board, java.awt.BorderLayout.CENTER);
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        menuGame.setText("Game");
+        menuGame.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuGameActionPerformed(evt);
+            }
+        });
 
-        menuConfig.setText("Config");
+        menuStart.setText("Start");
+        menuStart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuStartActionPerformed(evt);
+            }
+        });
+        menuGame.add(menuStart);
+
+        menuConfig.setText("Settings");
         menuConfig.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuConfigActionPerformed(evt);
             }
         });
+        menuGame.add(menuConfig);
 
-        jMenuItem1.setText("jMenuItem1");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        menuConfig.add(jMenuItem1);
-
-        jMenuBar1.add(menuConfig);
+        jMenuBar1.add(menuGame);
 
         setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void menuConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuConfigActionPerformed
+    private void menuGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGameActionPerformed
         
+    }//GEN-LAST:event_menuGameActionPerformed
+
+    private void menuConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuConfigActionPerformed
+        ConfigDialog dialog = new ConfigDialog(this, true);
+        dialog.setInitGame(board);
+        dialog.setVisible(true);
     }//GEN-LAST:event_menuConfigActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        ConfigDialog dialog = new ConfigDialog(this, true);
-        dialog.setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void menuStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuStartActionPerformed
+        board.initGame();
+    }//GEN-LAST:event_menuStartActionPerformed
 
     /**
      * @param args the command line arguments
@@ -118,10 +128,10 @@ public class Game extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.mycompany.snake.Board board;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenu menuConfig;
+    private javax.swing.JMenuItem menuConfig;
+    private javax.swing.JMenu menuGame;
+    private javax.swing.JMenuItem menuStart;
     private com.mycompany.snake.Scoredboard scoredboard;
     // End of variables declaration//GEN-END:variables
 

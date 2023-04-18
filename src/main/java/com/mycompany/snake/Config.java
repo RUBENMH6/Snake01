@@ -68,19 +68,19 @@ public class Config {
     public void setAFood(int food) {
         switch(aFood) {
             case APPLE: 
-                food = 0;
-                break;
-            case PEAR:
                 food = 1;
                 break;
-            case PINEAPPLE:
+            case PEAR:
                 food = 2;
                 break;
-            case PEACH:
+            case PINEAPPLE:
                 food = 3;
                 break;
+            case PEACH:
+                food = 4;
+                break;
             default:
-                food = 0;          
+                food = 1;          
         }
     }
 

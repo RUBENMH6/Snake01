@@ -110,7 +110,7 @@ public class Snake {
                 break;
             case DOWN:
                 if (canMove(row + 1, col) && !containsNode(row + 1, col)) { 
-                    if (row >= Config.instance.numRow) {
+                    if (row >= Config.instance.numRow - 1) {
                        snake.add(0, new Node(0, col));
                     } else {
                        snake.add(0, new Node(row + 1 , col)); 
@@ -136,7 +136,7 @@ public class Snake {
                 break;
             case RIGHT:
                 if (canMove(row, col + 1) && !containsNode(row, col + 1)) {
-                    if (col >= Config.instance.numCol) {
+                    if (col >= Config.instance.numCol - 1) {
                       snake.add(0, new Node(row , 0));  
                     } else {
                       snake.add(0, new Node(row , col + 1));

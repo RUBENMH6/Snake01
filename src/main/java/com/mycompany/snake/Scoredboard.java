@@ -13,6 +13,11 @@ import java.awt.Color;
 public class Scoredboard extends javax.swing.JPanel implements Incrementer {
 
     private int score;
+    private InitGamer initGame;
+
+    public void setInitGame(InitGamer initGame) {
+        this.initGame = initGame;
+    }
     /**
      * Creates new form Scoredboard
      */
