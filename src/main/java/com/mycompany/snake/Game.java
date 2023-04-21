@@ -12,13 +12,14 @@ import java.awt.Color;
  */
 public class Game extends javax.swing.JFrame {
 
-    private boolean pause = false;
+    
     /**
      * Creates new form Game
      */
     public Game() {
         initComponents();
         myInit();
+        setLocationRelativeTo(null);
     }
     
     private void myInit() {
@@ -38,17 +39,16 @@ public class Game extends javax.swing.JFrame {
         menuGame = new javax.swing.JMenu();
         menuStart = new javax.swing.JMenuItem();
         menuConfig = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
         menuResetScore = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         scoredboard.setBackground(new java.awt.Color(217, 118, 255));
-        scoredboard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        scoredboard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         getContentPane().add(scoredboard, java.awt.BorderLayout.PAGE_START);
 
         board.setBackground(new java.awt.Color(206, 196, 252));
-        board.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        board.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         board.setLayout(new java.awt.GridLayout(500, 500));
         getContentPane().add(board, java.awt.BorderLayout.CENTER);
 
@@ -75,19 +75,10 @@ public class Game extends javax.swing.JFrame {
         });
         menuGame.add(menuConfig);
 
+        menuResetScore.setText("Reset Score");
+        menuGame.add(menuResetScore);
+
         jMenuBar1.add(menuGame);
-
-        jMenu1.setText("Score");
-
-        menuResetScore.setText("Reset");
-        menuResetScore.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuResetScoreActionPerformed(evt);
-            }
-        });
-        jMenu1.add(menuResetScore);
-
-        jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
 
@@ -107,10 +98,6 @@ public class Game extends javax.swing.JFrame {
     private void menuStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuStartActionPerformed
         board.initGame();
     }//GEN-LAST:event_menuStartActionPerformed
-
-    private void menuResetScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuResetScoreActionPerformed
-        scoredboard.resetHighScore();
-    }//GEN-LAST:event_menuResetScoreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -149,7 +136,6 @@ public class Game extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.mycompany.snake.Board board;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem menuConfig;
     private javax.swing.JMenu menuGame;

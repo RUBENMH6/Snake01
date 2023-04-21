@@ -165,6 +165,9 @@ public class Snake {
         return getSnake().get(0).getRow() == food.getRow() && getSnake().get(0).getCol() == food.getCol();
     }
     
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
     
     
     

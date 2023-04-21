@@ -33,6 +33,7 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
     private MyKeyAdapter myKeyAdapter;
     private Food food;
     private SpecialFood sFood;
+    
     private int score;
     private int counter = 0;
     
@@ -49,7 +50,7 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
     public static final int SCORE_FOOD = 10;
     
     private Incrementer incrementer;
-    private GetScorer getScorer;
+    
     
     public Incrementer getIncrementer() {
         return incrementer;
@@ -151,6 +152,7 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
     public Board() {
         initComponents();
         myInit();
+        
         setFocusable(true);
     }
     
@@ -392,9 +394,15 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
     
     public void processGameOver() {
         if (snake.isGameOver()) {
-            JOptionPane.showMessageDialog(this, "YOU LOSE", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
+            String puntuacion = "YOUR SCORE IS:  " + incrementer.getScore();
+            JOptionPane.showMessageDialog(this, puntuacion, "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
             timer.stop();
-            getScorer.upgradeHighScore();
+            
+            startGame = true;
+            snake.setGameOver(false);
+            
+            incrementer.updateHighScore(incrementer.getScore());
+            incrementer.resetScore();
             
         }
     }

@@ -10,7 +10,7 @@ import java.awt.Color;
  *
  * @author alu10211999
  */
-public class Scoredboard extends javax.swing.JPanel implements Incrementer, GetScorer {
+public class Scoredboard extends javax.swing.JPanel implements Incrementer {
 
     private int score;
     private int highScore;
@@ -48,6 +48,7 @@ public class Scoredboard extends javax.swing.JPanel implements Incrementer, GetS
 
     public int getScore() {
         return score;
+        
     }
 
     public void setScore(int score) {
@@ -74,12 +75,16 @@ public class Scoredboard extends javax.swing.JPanel implements Incrementer, GetS
         jLabel2 = new javax.swing.JLabel();
         labelHighScore = new javax.swing.JLabel();
 
+        jLabel1.setFont(new java.awt.Font("Chandas", 1, 15)); // NOI18N
         jLabel1.setText("Score:");
 
+        labelScore.setFont(new java.awt.Font("Liberation Sans", 1, 20)); // NOI18N
         labelScore.setText("0");
 
+        jLabel2.setFont(new java.awt.Font("Chandas", 1, 15)); // NOI18N
         jLabel2.setText("High Score:");
 
+        labelHighScore.setFont(new java.awt.Font("Liberation Sans", 1, 20)); // NOI18N
         labelHighScore.setText("0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -91,7 +96,7 @@ public class Scoredboard extends javax.swing.JPanel implements Incrementer, GetS
                 .addComponent(jLabel1)
                 .addGap(29, 29, 29)
                 .addComponent(labelScore, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 158, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(labelHighScore, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -106,7 +111,7 @@ public class Scoredboard extends javax.swing.JPanel implements Incrementer, GetS
                     .addComponent(labelScore)
                     .addComponent(jLabel2)
                     .addComponent(labelHighScore))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -120,10 +125,7 @@ public class Scoredboard extends javax.swing.JPanel implements Incrementer, GetS
 
     
 
-    @Override
-    public void getScorer() {
-        
-    }
+    
 
     
 }

@@ -52,7 +52,7 @@ public class ConfigDialog extends javax.swing.JDialog {
             }
         });
 
-        buttonOk.setText("Ok");
+        buttonOk.setText("Start");
         buttonOk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonOkActionPerformed(evt);
