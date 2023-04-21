@@ -7,6 +7,7 @@ package com.mycompany.snake;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.List;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import static java.lang.Math.random;
 import static java.lang.StrictMath.random;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
@@ -41,10 +44,10 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
     private int timeSFood;
     private int appearSFood;
     
-    
+
     
     private boolean startGame = true;
-    
+   
     
     
     public static final int SCORE_FOOD = 10;
@@ -116,10 +119,13 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
         }
     }
     
+    
     @Override
     public void initGame() {
         counter = 0;
         food = new Food(snake);
+        System.out.println("COL: " + food.getCol() + "  ROW: " + food.getRow());
+        
         
         removeKeyListener(myKeyAdapter);
         addKeyListener(myKeyAdapter);
@@ -202,7 +208,7 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
         snake.paint(this, g);
         
         if (existFood()) {
-            food.paintF(this, g);
+            food.paintF(this, g, Config.instance.getAFood(), squareWidth(), squareHeight());
                     
         }
         
@@ -295,7 +301,6 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
         //If the number is 1, it is added to the counter (It takes 25 to spawn a food)
         if (random == 1) {
             counter++;
-            System.out.println(counter);
         }
         
         
@@ -455,7 +460,17 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
         
     }
     
-    
+    public Image getImage(int typeFood, String path) {
+        
+        Image image = new ImageIcon(getClass()
+                        .getResource(path))
+                        .getImage();
+        Image newimg = image.getScaledInstance
+                (squareWidth(), squareHeight(),  java.awt.Image.SCALE_SMOOTH); 
+        
+        return newimg;
+ 
+    }
    
 
     

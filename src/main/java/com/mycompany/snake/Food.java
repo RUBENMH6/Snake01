@@ -5,6 +5,9 @@
 package com.mycompany.snake;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import javax.swing.Icon;
 
 /**
  *
@@ -12,6 +15,7 @@ import java.awt.Graphics;
  */
 public class Food extends Node {
     
+ 
     
     public Food(Snake snake) {
         super(0, 0);
@@ -29,8 +33,35 @@ public class Food extends Node {
     }
     
     
-    public void paintF(Board b, Graphics g) {
-        b.drawSquare(g, new Node(getRow(),getCol()), Type.FOOD);
+    public void paintF(Board b, Graphics g, int foodType, int width, int height) {
+        
+        Image image;
+        Graphics2D g2d = (Graphics2D) g;
+        
+        switch (foodType) {
+            case 0:
+                image = b.getImage(foodType, "/images/apple.png");
+                
+                break;
+            case 1:
+                image = b.getImage(foodType, "/images/pear.png");
+                
+                break;
+            case 2:
+                image = b.getImage(foodType, "/images/pineapple.png");
+                
+                break;
+            case 3:
+                image = b.getImage(foodType, "/images/peach.png");
+                
+                break;
+            default:
+                image = b.getImage(foodType, "/images/apple.png");
+                
+                break;
+        }
+        
+        g2d.drawImage(image, width * getCol(), height * getRow(), null);
     }
     
     
