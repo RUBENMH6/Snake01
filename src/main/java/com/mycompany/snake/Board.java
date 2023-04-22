@@ -25,36 +25,33 @@ import javax.swing.Timer;
  *
  * @author alu10211999
  */
-public class Board extends javax.swing.JPanel implements InitGamer  {
+public class Board extends javax.swing.JPanel implements InitGamer {
 
     private Snake snake;
     public Timer timer;
     private Timer timerStart;
     private Timer timerStop;
-    
+
     private Direction direction;
     private MyKeyAdapter myKeyAdapter;
     private Food food;
     private SpecialFood sFood;
-    
+
     private int score;
     private int counter = 0;
-    
-    private int deltaTimeGame;
+
     private int timeSFood;
     private int appearSFood;
-    private Image appleImage;
+    private Image foodImage;
+    private Image sFoodImage;
+    private int deltaTimeGame;
 
-    
     private boolean startGame = true;
-    
-    
-    
+
     public static final int SCORE_FOOD = 10;
-    
+
     private Incrementer incrementer;
-    
-    
+
     public Incrementer getIncrementer() {
         return incrementer;
     }
@@ -63,193 +60,231 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
         this.incrementer = incrementer;
     }
 
-    
-    
     public void removeComponents() {
         for (Component component : getComponents()) {
             remove(component);
         }
     }
 
-    
-
-    
-    
     /**
      * Clase KeyAdapter para mover la snake.
      */
-    
     class MyKeyAdapter extends KeyAdapter {
-        
-        private int row = snake.getSnake().get(0).getRow();     
+
+        private int row = snake.getSnake().get(0).getRow();
         private int col = snake.getSnake().get(0).getCol();
-        
+
         @Override
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
                 case KeyEvent.VK_A:
-                    if (snake.canMove(row - 1 , col) && !snake.getDirection().equals(Direction.RIGHT)){
-                       snake.setDirection(Direction.LEFT);
+                    if (snake.canMove(row - 1, col) && !snake.getDirection().equals(Direction.RIGHT)) {
+                        snake.setDirection(Direction.LEFT);
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
                 case KeyEvent.VK_D:
-                    if (snake.canMove(row, col - 1) && !snake.getDirection().equals(Direction.LEFT)){
-                       snake.setDirection(Direction.RIGHT);
+                    if (snake.canMove(row, col - 1) && !snake.getDirection().equals(Direction.LEFT)) {
+                        snake.setDirection(Direction.RIGHT);
                     }
                     break;
                 case KeyEvent.VK_UP:
                 case KeyEvent.VK_W:
-                    if (snake.canMove(row , col + 1) && !snake.getDirection().equals(Direction.DOWN)){
-                       snake.setDirection(Direction.UP);
+                    if (snake.canMove(row, col + 1) && !snake.getDirection().equals(Direction.DOWN)) {
+                        snake.setDirection(Direction.UP);
                     }
                     break;
                 case KeyEvent.VK_DOWN:
                 case KeyEvent.VK_S:
-                    if (snake.canMove(row, col - 1 ) && !snake.getDirection().equals(Direction.UP)){
-                       snake.setDirection(Direction.DOWN);
+                    if (snake.canMove(row, col - 1) && !snake.getDirection().equals(Direction.UP)) {
+                        snake.setDirection(Direction.DOWN);
                     }
                     break;
-                
+
                 default:
                     break;
             }
             repaint();
         }
     }
-    
-    
+
     @Override
     public void initGame() {
         counter = 0;
         food = new Food(snake);
-        System.out.println("COL: " + food.getCol() + "  ROW: " + food.getRow());
-        appleImage = getImage("/images/apple.png");
-        
-        
+        if (timer != null) {
+            if (timer.isRunning()) {
+                timer.stop();
+            }
+        }
+
+        foodImage = getFoodImage();
+        System.out.println("Level:" + Config.instance.getLevel());
+
         removeKeyListener(myKeyAdapter);
         addKeyListener(myKeyAdapter);
         removeComponents();
+        setDeltaTime();
+        System.out.println(deltaTimeGame);
         
+            timer = new Timer(deltaTimeGame, new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    tick();
+
+                }
+            });
+            timer.start();
         
-        if (startGame == true) {
-          timer = new Timer(deltaTimeGame, new ActionListener() {
-       
-              
-       @Override
-            public void actionPerformed(ActionEvent e) {
-                tick();
-                
-            }
-        });
-        timer.start();
-        startGame = false;
-        }
-        
+
         myInit();
-        
-        
-        
+
     }
-    
+
+    public void setStartGame(boolean startGame) {
+        this.startGame = startGame;
+    }
+
     /**
      * Constructor de la clase Board.
      */
     public Board() {
         initComponents();
         myInit();
-        
+
         setFocusable(true);
     }
-    
+
     /**
      * Calcula el ancho de cada cuadrado que compone el board.
-     * @return 
+     *
+     * @return
      */
     public int squareWidth() {
-        return getWidth() / Config.instance.numCol;
+        return getWidth() / Config.instance.numRow;
     }
+
     /**
      * Calcula el alto de cada cuadrado que compone el board.
-     * @return 
+     *
+     * @return
      */
     public int squareHeight() {
-        return getHeight() / Config.instance.numRow;
+        return getHeight() / Config.instance.numCol;
     }
-    
+
     /**
      * Inicia atributos.
      */
     public void myInit() {
-       snake = new Snake();
-       
-       
-       setDeltaTime();
-       setTimeSpecialFood();
-       setAppearSpecialFood();
-          
-       
-       myKeyAdapter = new MyKeyAdapter(); 
-       addKeyListener(myKeyAdapter);
-        System.out.println(deltaTimeGame);
+        snake = new Snake();
+
+        setTimeSpecialFood();
+        setAppearSpecialFood();
+
+        myKeyAdapter = new MyKeyAdapter();
+        addKeyListener(myKeyAdapter);
+
         System.out.println(timeSFood);
         System.out.println(appearSFood);
-       
+
     }
-            
+
     /**
      * Pinta en el board los componentes.
-     * @param g 
+     *
+     * @param g
      */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
+
         snake.paint(this, g);
-        
+
         if (existFood()) {
-            
-               g.drawImage(appleImage,0,0,null);     
+
+            int x = squareWidth() * food.getCol();
+            int y = squareHeight() * food.getRow();
+
+            g.drawImage(foodImage, x, y, null);
+
         }
-        
+
         if (existSFood()) {
-           sFood.paintSF(this, g); 
+
+            int x = squareWidth() * sFood.getCol();
+            int y = squareHeight() * sFood.getRow();
+            g.drawImage(sFoodImage, x, y, null);
         }
-        repaint();
+
         Toolkit.getDefaultToolkit().sync();
     }
-    
+
+    public Image getSFoodImage() {
+        Image image = getImage("/images/specialfood.png");
+
+        return image;
+    }
+
+    public Image getFoodImage() {
+
+        Image image;
+        switch (Config.instance.getAFood()) {
+            case 0:
+                image = getImage("/images/apple.png");
+                break;
+            case 1:
+                image = getImage("/images/pear.png");
+                break;
+            case 2:
+                image = getImage("/images/pineapple.png");
+                break;
+            case 3:
+                image = getImage("/images/peach.png");
+                break;
+            default:
+                image = getImage("/images/apple.png");
+                break;
+
+        }
+        return image;
+    }
+
     /**
      * Devuelve el Food que existe en board.
+     *
      * @return - Food
      */
     public Food getFood() {
         return food;
     }
+
     /**
      * Devuelve la lista de Nodos que representa la Snake.
+     *
      * @return - List
      */
     public List getListSnake() {
         return (List) snake.getSnake();
     }
-    
+
     /**
      * Dibuja un nodo y dependiendo del tipo, lo dibuja de un color u otro.
+     *
      * @param g - Graphics
      * @param node - El nodo que dibuja
      * @param type - El tipo de nodo que dibuja
      */
     public void drawSquare(Graphics g, Node node, Type type) {
-        
- 
-        Color colors[] = {new Color(204, 102, 102),new Color(204, 102, 204), new Color(255,97,51),new Color(150, 0, 204)};
-        Color colorsFood[] = {new Color(255,97,51), new Color(159,255,51), new Color(255,227,51), new Color(255,144,51)};
-        
+
+        Color colors[] = {new Color(204, 102, 102), new Color(204, 102, 204), new Color(255, 97, 51), new Color(150, 0, 204)};
+        Color colorsFood[] = {new Color(255, 97, 51), new Color(159, 255, 51), new Color(255, 227, 51), new Color(255, 144, 51)};
+
         int x = node.getCol() * squareWidth();
         int y = node.getRow() * squareHeight();
-        
+
         switch (type) {
             case HEAD:
                 g.setColor(colors[0]);
@@ -267,8 +302,7 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
                 g.setColor(colors[1]);
                 break;
         }
-        
-        
+
         g.fillRect(x + 1, y + 1, squareWidth() - 2,
                 squareHeight() - 2);
         g.setColor(Color.BLACK);
@@ -281,58 +315,76 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
                 y + squareHeight() - 1,
                 x + squareWidth() - 1, y + 1);
     }
-    
-    
+
     /**
      * Método que se ejecuta a cada tick del timer
      */
     private void tick() {
         //Move snake.
         snake.move();
-        
+
         checkFood();
         //It is verified that in the next node there is spcial food or not 
         checkSpecialFood();
         //It is verified that in the next node it is not lost
         processGameOver();
-        
+
         //Two random numbers are created from 0 to 1.
-        int random = (int) (Math.random()*2);
-        
+        int random = (int) (Math.random() * 2);
+
         //If the number is 1, it is added to the counter (It takes 25 to spawn a food)
         if (random == 1) {
             counter++;
         }
-        
-        
+
         generateSFood();
-        
+
         //Repaint all components.
         repaint();
         Toolkit.getDefaultToolkit().sync();
-        
+
     }
+
     /**
      * It is verified that in the next node there is food or not
      */
     public void checkFood() {
-        
+
         if (snake.eatsFood(food)) {
-            snake.getSnake().add(snake.sizeSnake(), new Node(snake.getRowLastNode() ,  snake.getColLastNode() ));
+            snake.getSnake().add(snake.sizeSnake(), new Node(snake.getRowLastNode(), snake.getColLastNode()));
             food = new Food(snake);
-            incrementer.incrementScore(SCORE_FOOD);          
-        }           
-        
+            foodImage = getFoodImage();
+            incrementer.incrementScore(SCORE_FOOD);
+        }
+
     }
+
+    public void checkSpecialFood() {
+        if (existSFood()) {
+            if (snake.eatsFood(sFood)) {
+                for (int i = 0; i < 3; i++) {
+                    snake.getSnake().add(snake.sizeSnake(), new Node(snake.getRowLastNode(), snake.getColLastNode()));
+                    incrementer.incrementScore(SCORE_FOOD);
+                }
+                counter = 0;
+                sFood = null;
+                if (timerStop != null) {
+                    timerStop.stop();
+                }
+            }
+        }
+
+    }
+
     /**
      * Try to create a special food.
      */
     public void generateSFood() {
-        if (counter == appearSFood ) {
+        if (counter == appearSFood) {
             if (timerStop != null) {
                 if (timerStop.isRunning()) {
-                    timerStop.stop();                      
-                }   else {
+                    timerStop.stop();
+                } else {
                     sFood = new SpecialFood(snake);
                     tickStop();
                 }
@@ -340,94 +392,63 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
                 sFood = new SpecialFood(snake);
                 tickStop();
             }
+            sFoodImage = getSFoodImage();
             counter = 0;
         }
-        
+
     }
-    
+
     /**
-     * A new timer is created to clear the special food when it reaches a certain time.
+     * A new timer is created to clear the special food when it reaches a
+     * certain time.
      */
     public void tickStop() {
         if (existSFood()) {
-           timerStop = new Timer(timeSFood, new ActionListener() {
-          @Override
-            public void actionPerformed(ActionEvent e) {
-                sFood = null;
-                counter = 0;
-                timerStop.stop();
-            }
-        }); 
-           timerStop.start();
-           
-        }
-        
-        
-    }
-    
-    
-    public void checkSpecialFood() {
-        if (existSFood()) {
-           if (snake.eatsFood(sFood)) {
-                for (int i = 0; i < 3 ; i++) {
-                snake.getSnake().add(snake.sizeSnake(), new Node(snake.getRowLastNode() ,  snake.getColLastNode() ));
-                incrementer.incrementScore(SCORE_FOOD);
+            timerStop = new Timer(timeSFood, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    sFood = null;
+                    counter = 0;
+                    timerStop.stop();
                 }
-            counter = 0;
-            sFood = null;
-            if (timerStop != null) {
-               timerStop.stop(); 
-                }
-            } 
+            });
+            timerStop.start();
+
         }
-            
-            
-        
+
     }
+
     public boolean existFood() {
         if (food == null) {
             return false;
         }
         return true;
     }
-    
+
     public boolean existSFood() {
         if (sFood == null) {
             return false;
         }
         return true;
     }
-    
+
     public void processGameOver() {
         if (snake.isGameOver()) {
             String puntuacion = "YOUR SCORE IS:  " + incrementer.getScore();
             JOptionPane.showMessageDialog(this, puntuacion, "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
             timer.stop();
-            
+
             startGame = true;
             snake.setGameOver(false);
-            
+
             incrementer.updateHighScore(incrementer.getScore());
             incrementer.resetScore();
-            
+
         }
     }
-    
-    public void setDeltaTime() {
-        switch (Config.instance.getLevel()) {
-            case 0: deltaTimeGame = 500;
-                break;
-            case 1: deltaTimeGame = 250;
-                break;
-            case 2: deltaTimeGame = 100;
-                break;
-            default:
-                throw new AssertionError();
-        }
-    }
-    
+
     public void setTimeSpecialFood() {
-        switch(Config.instance.getLevel()){
+        switch (Config.instance.getLevel()) {
             case 0:
                 timeSFood = 12000;
                 break;
@@ -442,12 +463,13 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
                 break;
         }
     }
+
     public void setAppearSpecialFood() {
-        switch(Config.instance.getLevel()) {
+        switch (Config.instance.getLevel()) {
             case 0:
                 appearSFood = 20;
                 break;
-            case 1: 
+            case 1:
                 appearSFood = 35;
                 break;
             case 2:
@@ -456,27 +478,40 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
             default:
                 appearSFood = 20;
                 break;
-                    
-        }
-        
-    }
-    
-    public Image getImage(String path) {
-        
-        Image image = new ImageIcon(getClass()
-                        .getResource(path))
-                        .getImage();
-        Image newimg = image.getScaledInstance
-                (squareWidth(), squareHeight(),  java.awt.Image.SCALE_SMOOTH); 
-        
-        return newimg;
- 
-    }
-   
 
-    
-        
-    
+        }
+
+    }
+
+    public void setDeltaTime() {
+        switch (Config.instance.getLevel()) {
+            case 0:
+                deltaTimeGame = 500;
+                break;
+            case 1:
+                deltaTimeGame = 250;
+                break;
+            case 2:
+                deltaTimeGame = 100;
+                break;
+            default:
+                deltaTimeGame = 500;
+                break;
+
+        }
+    }
+
+    public Image getImage(String path) {
+
+        Image image = new ImageIcon(getClass()
+                .getResource(path))
+                .getImage();
+        Image newimg = image.getScaledInstance(squareWidth(), squareHeight(), java.awt.Image.SCALE_SMOOTH);
+
+        return newimg;
+
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -487,12 +522,7 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
         setLayout(new java.awt.GridLayout(1, 0));
     }// </editor-fold>//GEN-END:initComponents
 
-    
-
-    
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }
-

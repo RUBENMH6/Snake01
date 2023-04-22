@@ -18,11 +18,14 @@ public class ConfigDialog extends javax.swing.JDialog {
     public ConfigDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     public void setInitGame(InitGamer initGame) {
         this.initGame = initGame;
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -123,12 +126,14 @@ public class ConfigDialog extends javax.swing.JDialog {
 
     private void comboLevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboLevelActionPerformed
         Config.instance.setLevel(comboLevel.getSelectedIndex());
+        
     }//GEN-LAST:event_comboLevelActionPerformed
 
     private void buttonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOkActionPerformed
         
         initGame.initGame();
         dispose();
+        
     }//GEN-LAST:event_buttonOkActionPerformed
 
     private void comboRuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboRuleActionPerformed

@@ -39,7 +39,7 @@ public class Config {
     public void setLevel(int level) {
         if (level < 0) { 
             this.level = 0;
-        } else if (level > 2) {
+        } else if (level >= 2) {
             this.level = 2;
         } else {
             this.level = 1;
@@ -47,19 +47,10 @@ public class Config {
     }
 
     public int getDeltaTime(){
-        switch(level) {
-            case 0: 
-                deltaTime = 500;
-            case 1: 
-                deltaTime = 250;
-            case 2: 
-                deltaTime = 100;
-            default:
-                deltaTime = 500;
-                
-        }
         return deltaTime;
     }
+
+    
     
     
     public void setAFood(int food) {

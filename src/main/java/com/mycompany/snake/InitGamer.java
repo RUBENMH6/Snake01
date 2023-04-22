@@ -10,4 +10,5 @@ package com.mycompany.snake;
  */
 public interface InitGamer {
     public void initGame();
+    
 }
