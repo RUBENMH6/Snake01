@@ -43,11 +43,11 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
     private int deltaTimeGame;
     private int timeSFood;
     private int appearSFood;
-    
+    private Image appleImage;
 
     
     private boolean startGame = true;
-   
+    
     
     
     public static final int SCORE_FOOD = 10;
@@ -125,6 +125,7 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
         counter = 0;
         food = new Food(snake);
         System.out.println("COL: " + food.getCol() + "  ROW: " + food.getRow());
+        appleImage = getImage("/images/apple.png");
         
         
         removeKeyListener(myKeyAdapter);
@@ -208,14 +209,14 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
         snake.paint(this, g);
         
         if (existFood()) {
-            food.paintF(this, g, Config.instance.getAFood(), squareWidth(), squareHeight());
-                    
+            
+               g.drawImage(appleImage,0,0,null);     
         }
         
         if (existSFood()) {
            sFood.paintSF(this, g); 
         }
-        
+        repaint();
         Toolkit.getDefaultToolkit().sync();
     }
     
@@ -460,7 +461,7 @@ public class Board extends javax.swing.JPanel implements InitGamer  {
         
     }
     
-    public Image getImage(int typeFood, String path) {
+    public Image getImage(String path) {
         
         Image image = new ImageIcon(getClass()
                         .getResource(path))

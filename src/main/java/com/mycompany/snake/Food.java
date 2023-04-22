@@ -7,7 +7,6 @@ package com.mycompany.snake;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import javax.swing.Icon;
 
 /**
  *
@@ -40,23 +39,23 @@ public class Food extends Node {
         
         switch (foodType) {
             case 0:
-                image = b.getImage(foodType, "/images/apple.png");
+                image = b.getImage( "/images/apple.png");
                 
                 break;
             case 1:
-                image = b.getImage(foodType, "/images/pear.png");
+                image = b.getImage( "/images/pear.png");
                 
                 break;
             case 2:
-                image = b.getImage(foodType, "/images/pineapple.png");
+                image = b.getImage( "/images/pineapple.png");
                 
                 break;
             case 3:
-                image = b.getImage(foodType, "/images/peach.png");
+                image = b.getImage( "/images/peach.png");
                 
                 break;
             default:
-                image = b.getImage(foodType, "/images/apple.png");
+                image = b.getImage( "/images/apple.png");
                 
                 break;
         }
