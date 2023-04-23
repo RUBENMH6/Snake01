@@ -28,29 +28,31 @@ import javax.swing.Timer;
 public class Board extends javax.swing.JPanel implements InitGamer {
 
     private Snake snake;
-    public Timer timer;
-    private Timer timerStart;
-    private Timer timerStop;
-
     private Direction direction;
-    private MyKeyAdapter myKeyAdapter;
     private Food food;
     private SpecialFood sFood;
 
+    public Timer timer;
+    private Timer timerStop;
+
+    private MyKeyAdapter myKeyAdapter;
+    private Incrementer incrementer;
+    
     private int score;
     private int counter = 0;
-
+    
+    private int deltaTimeGame;
     private int timeSFood;
     private int appearSFood;
+    
     private Image foodImage;
     private Image sFoodImage;
-    private int deltaTimeGame;
-
+    
     private boolean startGame = true;
 
     public static final int SCORE_FOOD = 10;
 
-    private Incrementer incrementer;
+    
 
     public Incrementer getIncrementer() {
         return incrementer;
@@ -113,6 +115,8 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     public void initGame() {
         counter = 0;
         food = new Food(snake);
+        sFood = null;
+        
         if (timer != null) {
             if (timer.isRunning()) {
                 timer.stop();
@@ -125,8 +129,16 @@ public class Board extends javax.swing.JPanel implements InitGamer {
         removeKeyListener(myKeyAdapter);
         addKeyListener(myKeyAdapter);
         removeComponents();
+        
         setDeltaTime();
+        setTimeSpecialFood();
+        setAppearSpecialFood();
+        
         System.out.println(deltaTimeGame);
+        System.out.println(timeSFood);
+        System.out.println(appearSFood);
+        
+        
         
             timer = new Timer(deltaTimeGame, new ActionListener() {
 
@@ -181,14 +193,12 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     public void myInit() {
         snake = new Snake();
 
-        setTimeSpecialFood();
-        setAppearSpecialFood();
+        
 
         myKeyAdapter = new MyKeyAdapter();
         addKeyListener(myKeyAdapter);
 
-        System.out.println(timeSFood);
-        System.out.println(appearSFood);
+        
 
     }
 
@@ -335,6 +345,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
         //If the number is 1, it is added to the counter (It takes 25 to spawn a food)
         if (random == 1) {
             counter++;
+            System.out.println(counter);
         }
 
         generateSFood();
@@ -453,10 +464,10 @@ public class Board extends javax.swing.JPanel implements InitGamer {
                 timeSFood = 12000;
                 break;
             case 1:
-                timeSFood = 9000;
+                timeSFood = 10000;
                 break;
             case 2:
-                timeSFood = 6000;
+                timeSFood = 8000;
                 break;
             default:
                 timeSFood = 12000;
@@ -467,13 +478,13 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     public void setAppearSpecialFood() {
         switch (Config.instance.getLevel()) {
             case 0:
-                appearSFood = 20;
+                appearSFood = 18;
                 break;
             case 1:
-                appearSFood = 35;
+                appearSFood = 30;
                 break;
             case 2:
-                appearSFood = 50;
+                appearSFood = 60;
                 break;
             default:
                 appearSFood = 20;

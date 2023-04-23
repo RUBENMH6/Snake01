@@ -37,7 +37,7 @@ public class Config {
     }
     
     public void setLevel(int level) {
-        if (level < 0) { 
+        if (level <= 0) { 
             this.level = 0;
         } else if (level >= 2) {
             this.level = 2;
