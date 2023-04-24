@@ -57,7 +57,8 @@ public class Scoredboard extends javax.swing.JPanel implements Incrementer {
     
     public void updateHighScore(int score) {
         if (score > highScore) {
-            labelHighScore.setText(labelScore.getText());
+            highScore = getScore();
+            labelHighScore.setText(highScore + "");
         }
     }
     
