@@ -188,6 +188,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     public void myInit() {
         snake = new Snake();
         movement = new Movement();
+        snake.setDirection(Direction.RIGHT);
 
         
 
@@ -361,6 +362,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     private void tick() {
         
         doMovement();
+        snake.move();
 
         checkFood();
         //It is verified that in the next node there is spcial food or not 

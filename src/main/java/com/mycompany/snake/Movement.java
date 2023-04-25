@@ -17,16 +17,52 @@ import java.util.Vector;
 public class Movement {
     
     private List<Direction> movements;
-    public static final int MAX_MOV = 2;
+    
+    public static final int MAX_MOV_LEVEL0 = 1;
+    public static final int MAX_MOV_LEVEL1 = 2;
+    public static final int MAX_MOV_LEVEL2 = 3;
     
     public Movement() {
-        movements = new Vector<>(MAX_MOV);
+        switch(Config.instance.getLevel()) {
+            case 0: 
+                movements = new Vector<>(MAX_MOV_LEVEL0);
+                break;
+            case 1:
+                movements = new Vector<>(MAX_MOV_LEVEL1);
+                break;
+            case 2: 
+                movements = new Vector<>(MAX_MOV_LEVEL2);
+                break;
+            default:
+                movements = new Vector<>(MAX_MOV_LEVEL0);
+                break;
+        }
+        
         movements.add(Direction.RIGHT);
     }
     
     public boolean isFull() {
-        if (movements.size() == MAX_MOV) {
-            return true;
+        switch(Config.instance.getLevel()) {
+            case 0:
+                if (movements.size() == MAX_MOV_LEVEL0 ) {
+                    return true;
+                }
+                break;
+            case 1:
+                if (movements.size() == MAX_MOV_LEVEL1 ) {
+                    return true;
+                }
+                break;
+            case 2:
+                if (movements.size() == MAX_MOV_LEVEL2 ) {
+                    return true;
+                }
+                break;
+            default:
+                if (movements.size() == MAX_MOV_LEVEL0) {
+                    return true;
+                }
+                break;
         }
         return false;
     }
