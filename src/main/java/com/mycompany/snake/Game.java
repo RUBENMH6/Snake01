@@ -76,6 +76,11 @@ public class Game extends javax.swing.JFrame {
         menuGame.add(menuConfig);
 
         menuResetScore.setText("Reset Score");
+        menuResetScore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuResetScoreActionPerformed(evt);
+            }
+        });
         menuGame.add(menuResetScore);
 
         jMenuBar1.add(menuGame);
@@ -98,6 +103,11 @@ public class Game extends javax.swing.JFrame {
     private void menuStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuStartActionPerformed
         board.initGame();
     }//GEN-LAST:event_menuStartActionPerformed
+
+    private void menuResetScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuResetScoreActionPerformed
+        board.setIncrementer(scoredboard);
+        scoredboard.resetHighScore();
+    }//GEN-LAST:event_menuResetScoreActionPerformed
 
     /**
      * @param args the command line arguments

@@ -31,6 +31,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     private Direction direction;
     private Food food;
     private SpecialFood sFood;
+    private Movement movement;
 
     public Timer timer;
     private Timer timerStop;
@@ -81,27 +82,19 @@ public class Board extends javax.swing.JPanel implements InitGamer {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
                 case KeyEvent.VK_A:
-                    if (snake.canMove(row - 1, col) && !snake.getDirection().equals(Direction.RIGHT)) {
-                        snake.setDirection(Direction.LEFT);
-                    }
+                    movement.insertNewMov(Direction.LEFT);
                     break;
                 case KeyEvent.VK_RIGHT:
                 case KeyEvent.VK_D:
-                    if (snake.canMove(row, col - 1) && !snake.getDirection().equals(Direction.LEFT)) {
-                        snake.setDirection(Direction.RIGHT);
-                    }
+                    movement.insertNewMov(Direction.RIGHT);
                     break;
                 case KeyEvent.VK_UP:
                 case KeyEvent.VK_W:
-                    if (snake.canMove(row, col + 1) && !snake.getDirection().equals(Direction.DOWN)) {
-                        snake.setDirection(Direction.UP);
-                    }
+                    movement.insertNewMov(Direction.UP);
                     break;
                 case KeyEvent.VK_DOWN:
                 case KeyEvent.VK_S:
-                    if (snake.canMove(row, col - 1) && !snake.getDirection().equals(Direction.UP)) {
-                        snake.setDirection(Direction.DOWN);
-                    }
+                    movement.insertNewMov(Direction.DOWN);
                     break;
 
                 default:
@@ -110,6 +103,8 @@ public class Board extends javax.swing.JPanel implements InitGamer {
             repaint();
         }
     }
+    
+    
 
     @Override
     public void initGame() {
@@ -192,6 +187,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
      */
     public void myInit() {
         snake = new Snake();
+        movement = new Movement();
 
         
 
@@ -210,7 +206,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        
         snake.paint(this, g);
 
         if (existFood()) {
@@ -326,12 +322,45 @@ public class Board extends javax.swing.JPanel implements InitGamer {
                 x + squareWidth() - 1, y + 1);
     }
 
-    /**
-     * Método que se ejecuta a cada tick del timer
-     */
+    private void doMovement() {
+        
+        int row = snake.getSnake().get(0).getRow();
+        int col = snake.getSnake().get(0).getCol();
+        
+        switch (movement.getNextMov()) {
+            case LEFT:
+                 if (snake.canMove(row - 1, col) && !snake.getDirection().equals(Direction.RIGHT)) {
+                     snake.setDirection(movement.getNextMov());
+                 } else {
+                     
+                 }
+                break;
+            case RIGHT:
+                if (snake.canMove(row, col - 1) && !snake.getDirection().equals(Direction.LEFT)) {
+                     snake.setDirection(movement.getNextMov());
+                 } else {
+                     snake.setGameOver(true);
+                 }
+                break;
+            case UP:
+                if (snake.canMove(row , col + 1) && !snake.getDirection().equals(Direction.DOWN)) {
+                     snake.setDirection(movement.getNextMov());
+                 } else {
+                     snake.setGameOver(true);
+                 }
+                break;
+            case DOWN:
+                if (snake.canMove(row + 1, col) && !snake.getDirection().equals(Direction.UP)) {
+                     snake.setDirection(movement.getNextMov());
+                 } else {
+                     snake.setGameOver(true);
+                 }
+                break;
+        }
+    }
     private void tick() {
-        //Move snake.
-        snake.move();
+        
+        doMovement();
 
         checkFood();
         //It is verified that in the next node there is spcial food or not 
@@ -444,6 +473,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     }
 
     public void processGameOver() {
+        
         if (snake.isGameOver()) {
             String puntuacion = "YOUR SCORE IS:  " + incrementer.getScore();
             JOptionPane.showMessageDialog(this, puntuacion, "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
@@ -451,7 +481,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
 
             startGame = true;
             snake.setGameOver(false);
-
+            
             incrementer.updateHighScore(incrementer.getScore());
             incrementer.resetScore();
 
@@ -527,7 +557,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setBackground(new java.awt.Color(172, 163, 255));
+        setBackground(new java.awt.Color(153, 204, 0));
         setMaximumSize(new java.awt.Dimension(500, 500));
         setPreferredSize(new java.awt.Dimension(500, 500));
         setLayout(new java.awt.GridLayout(1, 0));

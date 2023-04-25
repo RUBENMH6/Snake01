@@ -20,6 +20,7 @@ public class Snake {
     private List<Node> snake;
     private Node node;
     private Direction direction;
+    
     private Board board;
     private SpecialFood sFood;
     private Food food;
