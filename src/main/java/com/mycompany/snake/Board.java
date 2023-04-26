@@ -48,6 +48,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     
     private Image foodImage;
     private Image sFoodImage;
+    private Image boardImage;
     
     private boolean startGame = true;
 
@@ -119,8 +120,8 @@ public class Board extends javax.swing.JPanel implements InitGamer {
         }
 
         foodImage = getFoodImage();
-        System.out.println("Level:" + Config.instance.getLevel());
-
+        
+        System.out.println(getWidth() + " - " + getHeight());
         removeKeyListener(myKeyAdapter);
         addKeyListener(myKeyAdapter);
         removeComponents();
@@ -129,9 +130,8 @@ public class Board extends javax.swing.JPanel implements InitGamer {
         setTimeSpecialFood();
         setAppearSpecialFood();
         
-        System.out.println(deltaTimeGame);
-        System.out.println(timeSFood);
-        System.out.println(appearSFood);
+        boardImage = getBoardImage();
+        
         
         
         
@@ -208,6 +208,9 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         
+        g.drawImage(boardImage, 0  , 0, getWidth(), getHeight(), null);
+        
+        
         snake.paint(this, g);
 
         if (existFood()) {
@@ -227,6 +230,26 @@ public class Board extends javax.swing.JPanel implements InitGamer {
         }
 
         Toolkit.getDefaultToolkit().sync();
+    }
+    public Image getBoardImage() {
+        Image image;
+        
+        switch(Config.instance.getBackground()) {
+            case 0: 
+                image = getImage("/images/grass.png");
+                break;
+            case 1: 
+                image = getImage("/images/sand.png");
+                break;
+            case 2:
+                image = getImage("/images/rock.png");
+                break;
+            default:
+                image = getImage("/images/grass.png");
+                break;
+        }
+        
+        return image;
     }
 
     public Image getSFoodImage() {

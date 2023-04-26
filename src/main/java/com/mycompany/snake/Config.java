@@ -17,8 +17,7 @@ public class Config {
     private int appearSpecialFood;
     private int rule;
     private int food;
-
-
+    private int background;
 
     
     public int numRow = 20;
@@ -71,6 +70,24 @@ public class Config {
             this.rule = 0;
         } else {
             this.rule = 1;
+        }
+    }
+    
+    public int getBackground() {
+        return background;
+    }
+    
+    public void setBackground(int b) {
+        switch(b){
+            case 0: 
+                background = 0;
+                break;
+            case 1:
+                background = 1;
+                break;
+            case 2:
+                background = 2;
+                break;
         }
     }
     

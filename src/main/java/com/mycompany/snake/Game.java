@@ -43,11 +43,11 @@ public class Game extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        scoredboard.setBackground(new java.awt.Color(217, 118, 255));
+        scoredboard.setBackground(new java.awt.Color(0, 0, 0));
         scoredboard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         getContentPane().add(scoredboard, java.awt.BorderLayout.PAGE_START);
 
-        board.setBackground(new java.awt.Color(206, 196, 252));
+        board.setBackground(new java.awt.Color(255, 255, 255));
         board.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         board.setLayout(new java.awt.GridLayout(500, 500));
         getContentPane().add(board, java.awt.BorderLayout.CENTER);

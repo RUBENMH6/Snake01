@@ -77,16 +77,26 @@ public class Scoredboard extends javax.swing.JPanel implements Incrementer {
         labelHighScore = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Chandas", 1, 15)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Score:");
 
+        labelScore.setBackground(new java.awt.Color(255, 255, 255));
         labelScore.setFont(new java.awt.Font("Liberation Sans", 1, 20)); // NOI18N
+        labelScore.setForeground(new java.awt.Color(255, 255, 255));
+        labelScore.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         labelScore.setText("0");
+        labelScore.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
 
         jLabel2.setFont(new java.awt.Font("Chandas", 1, 15)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("High Score:");
 
+        labelHighScore.setBackground(new java.awt.Color(255, 255, 255));
         labelHighScore.setFont(new java.awt.Font("Liberation Sans", 1, 20)); // NOI18N
+        labelHighScore.setForeground(new java.awt.Color(255, 255, 255));
+        labelHighScore.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         labelHighScore.setText("0");
+        labelHighScore.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -112,7 +122,7 @@ public class Scoredboard extends javax.swing.JPanel implements Incrementer {
                     .addComponent(labelScore)
                     .addComponent(jLabel2)
                     .addComponent(labelHighScore))
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
