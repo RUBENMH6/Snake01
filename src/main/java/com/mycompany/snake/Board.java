@@ -204,11 +204,21 @@ public class Board extends javax.swing.JPanel implements InitGamer {
      *
      * @param g
      */
+    
+    public void paintBackground (Graphics g) {
+        for (int i = 0 ; i < getWidth() ; i = i + squareWidth()) {
+            for (int j = 0; j < getHeight() ; j = j + squareHeight()) {
+               g.drawImage(boardImage, i , j, squareWidth(), squareHeight(), null); 
+            }
+        }
+        
+    }
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-        g.drawImage(boardImage, 0  , 0, getWidth(), getHeight(), null);
+        paintBackground(g);
+        
         
         
         snake.paint(this, g);
@@ -236,7 +246,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
         
         switch(Config.instance.getBackground()) {
             case 0: 
-                image = getImage("/images/grass.png");
+                image = getImage("/images/grass.jpg");
                 break;
             case 1: 
                 image = getImage("/images/sand.png");
